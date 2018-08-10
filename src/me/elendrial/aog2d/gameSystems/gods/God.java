@@ -1,16 +1,24 @@
 package me.elendrial.aog2d.gameSystems.gods;
 
 import java.awt.Color;
+import java.util.ArrayList;
+
+import me.elendrial.aog2d.objects.units.Unit;
 
 public class God {
 	
 	public String name;
 	public Color color;
-	// Units
+	public ArrayList<Class<? extends Unit>> units;
 	
-	public God(String name, Color c) {
+	public God(String name, Color color) {
 		this.name = name;
-		color = c;
+		this.color = color;
+		this.units = new ArrayList<Class<? extends Unit>>();
+	}
+	
+	public void addUnit(Class<? extends Unit> unit) {
+		units.add(unit);
 	}
 	
 	public static God NEUTRAL = new God("neutral", Color.gray);

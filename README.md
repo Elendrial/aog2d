@@ -1,18 +1,19 @@
-Planning to be a 2d, turn based, resource control, strategy game. Based of Armies of Gielinor by Jagex, previously hosted at funorb.com before it's retirement. More information on the game can be found at http://funorb.wikia.com/wiki/Armies_of_Gielinor .
+Not currently playable. Still on core systems phase.
+Planning to be a 2d, turn based, resource control, strategy game. Based of Armies of Gielinor by Jagex, previously hosted at funorb.com before it's retirement. More information on the game can be found at http://funorb.wikia.com/wiki/Armies_of_Gielinor
 
-This is currently written entirely in java by myself, uses my RPGEngine as a base, and has estimated 5% of the 'core' done.
+This is written entirely in java by myself, and uses my RPGEngine as a base. An estimated 8% of the 'core' is done.
 (may find I need to port to Gridbased Engine if RPGEngine is too buggy)
 
-##TODO:
+## TODO:
 
 #### High priority (CORE):
-- Player turn systems
-- Alignment/god systems      (semi done)
+- Player turn systems			(semi done)
+- Alignment/god systems     	(semi done)
 - Basic unit movement systems
 - Unit summoning systems
 - Basic resource system
 - Basic combat (melee/ranged)
-- Building capture system
+- Building capture system		(started)
 
 #### Medium priority:
 - Placeholder art
@@ -54,5 +55,6 @@ This is currently written entirely in java by myself, uses my RPGEngine as a bas
 
 
 ## Notes:
+####### (for myself as much as others)
 - Structure tiles are ones which can be captured for points, environment are anything else. (ie: walls are environment)
 - A menu is still a 'level', just a highly specialised one comprising of only GUIs.

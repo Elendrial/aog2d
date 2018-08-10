@@ -14,7 +14,7 @@ public class Initialisation implements IInitialiser{
 	
 	@Override
 	public void preInit() {
-		
+		// Setup God/Unit affiliations
 	}
 
 	@Override

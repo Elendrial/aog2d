@@ -10,7 +10,11 @@ public class Player {
 	public HashMap<God, Integer> alignmentLevel = new HashMap<God, Integer>();
 	public int mana;
 	public int victoryPoints;
-	public Color color;
+	public final Color color;
+	
+	public Player(Color c) {
+		color = c;
+	}
 	
 	public int getAlignmentLevel(God s) {
 		if(alignmentLevel.containsKey(s)) return alignmentLevel.get(s);
