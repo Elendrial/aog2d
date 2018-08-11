@@ -9,4 +9,7 @@ public class OpenTile extends AoGTile {
 		this.tileName = "open";
 	}
 
+	@Override
+	public void onClick() {}
+
 }

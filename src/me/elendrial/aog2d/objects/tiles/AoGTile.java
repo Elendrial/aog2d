@@ -4,6 +4,8 @@ import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
+	public abstract void onClick();
+	
 	// Defense Bonus
 	// Effect on movement
 	

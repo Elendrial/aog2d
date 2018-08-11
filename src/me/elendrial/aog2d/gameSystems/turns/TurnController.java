@@ -1,5 +1,7 @@
 package me.elendrial.aog2d.gameSystems.turns;
 
+import me.elendrial.aog2d.levels.AoGLevel;
+
 public class TurnController {
 	
 	// This is essentially the TickController, but rather than running on it's own and running continuously, it just forwards events to other parts of the game.
@@ -7,10 +9,12 @@ public class TurnController {
 	
 	private int amountOfPlayers;
 	private int playerTurn;
+	private AoGLevel parentLevel;
 	
-	public TurnController(int amountOfPlayers) {
+	public TurnController(int amountOfPlayers, AoGLevel level) {
 		this.amountOfPlayers = amountOfPlayers;
 		playerTurn = 0;
+		parentLevel = level;
 	}
 	
 	public void nextTurn() {

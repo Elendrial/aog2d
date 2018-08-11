@@ -1,8 +1,8 @@
 Not currently playable. Still on core systems phase.
 Planning to be a 2d, turn based, resource control, strategy game. Based of Armies of Gielinor by Jagex, previously hosted at funorb.com before it's retirement. More information on the game can be found at http://funorb.wikia.com/wiki/Armies_of_Gielinor
 
-This is written entirely in java by myself, and uses my RPGEngine as a base. An estimated 15% of the 'core' is done.
-(may find I need to port to Gridbased Engine if RPGEngine is too buggy)
+This is written entirely in java by myself, and uses my RPGEngine as a base. An estimated 17% of the 'core' is done.
+(may find I need to port to Gridbased Engine if RPGEngine is too buggy/barebones)
 
 ## TODO:
 ###### May not contain everything
@@ -14,6 +14,7 @@ This is written entirely in java by myself, and uses my RPGEngine as a base. An 
 - Basic resource system			(semi done)
 - Basic combat (melee/ranged)
 - Building capture system		(started)
+- Get the engine working properly (started)
 
 #### Medium priority:
 - Placeholder art				(started)

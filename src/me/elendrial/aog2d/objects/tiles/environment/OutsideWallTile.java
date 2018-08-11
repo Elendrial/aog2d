@@ -8,5 +8,8 @@ public class OutsideWallTile extends AoGTile{
 		this.canPassThrough = false;
 		this.tileName = "outsideWall";
 	}
+
+	@Override
+	public void onClick() {}
 	
 }

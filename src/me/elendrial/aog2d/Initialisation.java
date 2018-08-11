@@ -3,6 +3,7 @@ package me.elendrial.aog2d;
 import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
+import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
 import me.hii488.controllers.InitialisationController;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
@@ -22,6 +23,8 @@ public class Initialisation implements IInitialiser{
 		// Register tiles/entities
 		TileRegistry.registerTile(new OutsideWallTile());
 		TileRegistry.registerTile(new OpenTile());
+		
+		TileRegistry.registerTile(new PortalTile());
 		
 		
 		// Setup God/Unit affiliations
