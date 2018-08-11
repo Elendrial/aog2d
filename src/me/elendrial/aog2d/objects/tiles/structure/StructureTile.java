@@ -12,13 +12,13 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 	public Player capturedBy;
 	public Player progressingCapturer;
 	
-	public void onTurnStart() {
+	public void onTurnStart(Player playerTurn) {
 		if(captureAmount < captureTime) {
 			//	if barbarian of progressingCapturer is on, increase capture amount by 15
 			//	if barbarian of another player, decrease capture amount by 15, wrap into their capture bar.
 		}
 		
-		if(capturedBy != null) {
+		if(capturedBy != null && capturedBy.equals(playerTurn)) {
 			capturedBy.mana += manaPerTurn;
 		}
 		

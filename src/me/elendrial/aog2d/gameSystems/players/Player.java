@@ -26,4 +26,11 @@ public class Player {
 		return 0;
 	}
 	
+	public boolean equals(Player p) {
+		if(!color.equals(p.color)) return false;
+		if(victoryPoints != p.victoryPoints) return false;
+		if(mana != p.mana) return false;
+		return true;
+	}
+	
 }

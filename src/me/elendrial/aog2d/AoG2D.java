@@ -8,7 +8,8 @@ public class AoG2D {
 	public static void main(String[] args) {
 		Initialisation.setup();
 		
-		EngineSettings.Texture.tileSize = 16;
+		// Temporary, probably should triple the size at least.
+		EngineSettings.Texture.tileSize = 10;
 		
 		GameController.loadAndStartGame("SpaceInvaders", 1000, 800);
 	}

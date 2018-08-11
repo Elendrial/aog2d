@@ -21,7 +21,7 @@ public class TurnController {
 	}
 	
 	private void endTurn() {
-		
+		// Not sure what'd happen here, except maybe show next player graphic?
 	}
 	
 	private void beginTurn() {
