@@ -1,5 +1,6 @@
 package me.elendrial.aog2d.objects.tiles.environment;
 
+import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 
 public class OpenTile extends AoGTile {
@@ -10,6 +11,6 @@ public class OpenTile extends AoGTile {
 	}
 
 	@Override
-	public void onClick() {}
+	public void onClick(Player p) {}
 
 }

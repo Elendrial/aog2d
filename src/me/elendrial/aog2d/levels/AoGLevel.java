@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.levels;
 
 import me.elendrial.aog2d.gameSystems.ClickController;
+import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.TurnController;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
@@ -11,13 +12,19 @@ import me.hii488.handlers.InputHandler;
 
 public class AoGLevel extends BaseLevel {
 	
-	private TurnController turnController;
-	private ClickController clickController;
+	public TurnController turnController;
+	public ClickController clickController;
+	public Player[] players;
 	
-	public AoGLevel() {
+	// TODO: Probably separate this out into 'load map', 'load players', 'start game' phases.
+	public AoGLevel(Player[] p) {
 		super();
 		
+		players = p;
+		
+		turnController = new TurnController(players, this);
 		clickController = new ClickController(this);
+		
 		InputHandler.addInputListener(clickController);
 		
 		// Temporary, should be replaced with a proper map loader

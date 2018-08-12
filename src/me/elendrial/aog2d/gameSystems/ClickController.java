@@ -17,8 +17,10 @@ public class ClickController implements IInputListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// TODO: Fix this, it's not working
-		((AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(new Vector(e.getX(), e.getY()).translate(Camera.currentPosition.negated()))).onClick();
+		// TODO: When splitting into client/server pair, change this to pass the player as the one on the client.
+		// If entity on tile, onClick() that, else onClick() the tile.
+		
+		((AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(new Vector(e.getX(), e.getY()).translate(Camera.currentPosition.negated()))).onClick(parentLevel.turnController.getCurrentPlayer());
 	}
 	
 }

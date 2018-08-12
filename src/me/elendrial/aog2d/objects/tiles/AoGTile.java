@@ -1,10 +1,11 @@
 package me.elendrial.aog2d.objects.tiles;
 
+import me.elendrial.aog2d.gameSystems.players.Player;
 import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
-	public abstract void onClick();
+	public abstract void onClick(Player p);
 	
 	// Defense Bonus
 	// Effect on movement

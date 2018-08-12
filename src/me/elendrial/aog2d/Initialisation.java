@@ -1,12 +1,18 @@
 package me.elendrial.aog2d;
 
+import java.awt.Color;
+
+import me.elendrial.aog2d.gameSystems.gods.God;
+import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
+import me.elendrial.aog2d.objects.units.BarbarianUnit;
 import me.hii488.controllers.InitialisationController;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
+import me.hii488.registries.EntityRegistry;
 import me.hii488.registries.TileRegistry;
 
 public class Initialisation implements IInitialiser{
@@ -26,14 +32,21 @@ public class Initialisation implements IInitialiser{
 		
 		TileRegistry.registerTile(new PortalTile());
 		
+		EntityRegistry.registerEntity(new BarbarianUnit());
+		
 		
 		// Setup God/Unit affiliations
-		
+		God.NEUTRAL.addUnit(BarbarianUnit.class);
 	}
 
 	@Override
 	public void init() {
-		LevelHandler.addLevel(new AoGLevel(), "aogLevel");
+		// TODO: Add menus
+		
+		// Temporary setup, AoGLevel should be more dynamically created from a menu with options etc.
+		Player p1 = new Player(Color.RED);
+		Player p2 = new Player(Color.BLUE);
+		LevelHandler.addLevel(new AoGLevel(new Player[] {p1,p2}), "aogLevel");
 	}
 
 	@Override
