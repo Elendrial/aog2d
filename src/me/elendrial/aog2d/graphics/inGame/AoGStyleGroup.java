@@ -1,5 +1,6 @@
 package me.elendrial.aog2d.graphics.inGame;
 
+import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyleGroup;
 
 public class AoGStyleGroup extends GUIStyleGroup{
@@ -16,8 +17,10 @@ public class AoGStyleGroup extends GUIStyleGroup{
 	protected AoGStyleGroup() {
 		super();
 		
-		// Add GUIStyles
+		// Add GUIStyles...
+		GUIStyle summonMenu = new GUIStyle(); // I think it's just empty... Maybe I'll have to look through and consolidate a load of these.
 		
+		styles.put("summonMenu", summonMenu);
 	}
 	
 }
