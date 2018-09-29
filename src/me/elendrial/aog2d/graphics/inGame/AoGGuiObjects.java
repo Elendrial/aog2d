@@ -1,5 +1,7 @@
 package me.elendrial.aog2d.graphics.inGame;
 
+import java.util.HashMap;
+
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.hii488.graphics.gui.GUISet;
@@ -13,7 +15,8 @@ public class AoGGuiObjects {
 	// Standard gui sets
 	
 	public static GUISet summonSet = new GUISet();
-	
+	public static HashMap<String, GUIOption> godSummonOptions = new HashMap<String, GUIOption>();
+	public static HashMap<String, GUIOptionBox> unitSummonMenus = new HashMap<String, GUIOptionBox>();
 	
 	// Standard gui elements
 	
@@ -26,21 +29,32 @@ public class AoGGuiObjects {
 	}
 	
 	private static GUIOption generateGodOption(God g, int level) {
-		GUIStyle defaultStyle = AoGStyleGroup.getInstance().styles.get("summonMenu");
-		GUIStyle s = new GUIStyle(defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), "")); // TODO: Make these and put them somewhere like textures/gui/godIcons/<godname>.png
+		if(godSummonOptions.containsKey(g.name)) return godSummonOptions.get(g.name);
 		
+		GUIStyle defaultStyle = AoGStyleGroup.getInstance().styles.get("summonMenu");
+		GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.name + "_icon", 0)); // TODO: Make these icons
+		
+		if(unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
+		
+		// TODO: make sure this isn't too inefficient.
 		GUIOption o = new GUIOption(s) {
+			GUIOptionBox unitOptionBox = unitSummonMenus.get(g.name + "_units");
+			
 			public void onSelect() {
-				
+				this.parentGuiSet.hideAllWithTag("unitOptions");
+				unitOptionBox.show();
 			}
 		};
-		
-		// On click must go and remove current 'outer' unit summon menu if it exits, and replace it with the new one.
 		
 		return o;
 	}
 	
-	//private static GUIOptionBox generateGodOptionList(God g, int level) {
-	//	
-	//}
+	private static GUIOptionBox generateUnitOptionList(God g) {
+		GUIStyle defaultStyle = AoGStyleGroup.getInstance().styles.get("unitSummonMenu");
+		
+		// TODO: Position the options inside the box
+		// TODO: Check that Option rendering & clicking code is all relative to OptionBox position, not relative to screen.
+		
+		return null;
+	}
 }

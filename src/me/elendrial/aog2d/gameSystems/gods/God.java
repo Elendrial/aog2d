@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import me.elendrial.aog2d.objects.units.Unit;
+import me.hii488.registries.TextureRegistry;
 
 public class God {
 	
@@ -15,6 +16,8 @@ public class God {
 		this.name = name;
 		this.color = color;
 		this.units = new ArrayList<Class<? extends Unit>>();
+		
+		TextureRegistry.addTexture("textures/gui/godIcons/" + name + ".png", name + "_icon", 0);
 	}
 	
 	public void addUnit(Class<? extends Unit> unit) {

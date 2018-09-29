@@ -17,7 +17,7 @@ public class AoGStyleGroup extends GUIStyleGroup{
 	protected AoGStyleGroup() {
 		super();
 		
-		// Add GUIStyles...
+		// TODO: Add GUIStyles...
 		GUIStyle summonMenu = new GUIStyle(); // I think it's just empty... Maybe I'll have to look through and consolidate a load of these.
 		
 		styles.put("summonMenu", summonMenu);
