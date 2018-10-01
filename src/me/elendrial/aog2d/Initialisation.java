@@ -26,15 +26,26 @@ public class Initialisation implements IInitialiser{
 	
 	@Override
 	public void preInit() {
-		// Register tiles/entities
+		registerTiles();
+		registerEntities();
+		
+		alignUnits();
+	}
+	
+	public void registerTiles() {
+		// 'Standard' Tiles
 		TileRegistry.registerTile(new OutsideWallTile());
 		TileRegistry.registerTile(new OpenTile());
 		
+		// 'Action Tiles'
 		TileRegistry.registerTile(new PortalTile());
-		
+	}
+	
+	public void registerEntities() {
 		EntityRegistry.registerEntity(new BarbarianUnit());
-		
-		
+	}
+	
+	public void alignUnits() {
 		// Setup God/Unit affiliations
 		God.NEUTRAL.addUnit(BarbarianUnit.class);
 	}
