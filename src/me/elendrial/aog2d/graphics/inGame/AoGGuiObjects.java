@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
+import me.hii488.dataTypes.Vector;
 import me.hii488.graphics.gui.GUISet;
 import me.hii488.graphics.gui.premadeTypes.GUIOption;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
@@ -52,9 +53,26 @@ public class AoGGuiObjects {
 	private static GUIOptionBox generateUnitOptionList(God g) {
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().styles.get("unitSummonMenu");
 		
-		// TODO: Position the options inside the box
-		// TODO: Check that Option rendering & clicking code is all relative to OptionBox position, not relative to screen.
+		GUIOptionBox unitMenu = new GUIOptionBox(defaultStyle);
 		
-		return null;
+		int amount = g.units.size();
+		for(int i = 0; i < amount; i++) {
+			
+			GUIOption o = new GUIOption(defaultStyle) {
+				public void onSelect() {
+					// TODO: Close all summon menus, summon the unit.
+				}
+			};
+			
+			Vector pos = new Vector(unitMenu.getDimensions().getX()/2, unitMenu.getDimensions().getY()/2);
+			
+			// TODO: Check that this is actually an appropriate distance from the center point.
+			pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX()/3, Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX()/3);
+			
+			o.setPosition(pos);
+			unitMenu.addOption(o);
+		}
+		
+		return unitMenu;
 	}
 }
