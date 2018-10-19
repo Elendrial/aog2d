@@ -26,11 +26,15 @@ public class Player {
 		return 0;
 	}
 	
+	// Only equals on Color, to ensure Player does not change throughout a game and so can be used as a key to Maps etc.
 	public boolean equals(Player p) {
 		if(!color.equals(p.color)) return false;
-		if(victoryPoints != p.victoryPoints) return false;
-		if(mana != p.mana) return false;
 		return true;
+	}
+	
+	
+	public int hashCode() {
+		return color.hashCode();
 	}
 	
 }

@@ -3,6 +3,7 @@ package me.elendrial.aog2d.levels;
 import me.elendrial.aog2d.gameSystems.ClickController;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.TurnController;
+import me.elendrial.aog2d.graphics.inGame.AoGGuiObjects;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
@@ -38,6 +39,8 @@ public class AoGLevel extends BaseLevel {
 		this.getTileGrid().setObjectAt(5, 5, new PortalTile());
 		
 		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
+		
+		this.getGUI().addGUISet(AoGGuiObjects.summonSet);
 	}
 	
 }

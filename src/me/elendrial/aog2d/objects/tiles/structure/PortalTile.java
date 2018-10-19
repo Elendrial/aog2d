@@ -23,9 +23,9 @@ public class PortalTile extends StructureTile{
 		LevelHandler.getCurrentLevel().addEntity(b);*/
 		
 		GUIOptionBox ob = AoGGuiObjects.getSummonGUI(p);
-		ob.show();
 		
-		AoGGuiObjects.summonSet.addElement(ob);
+		ob.setPosition(this.getPosition());
+		ob.show();
 		
 	}
 

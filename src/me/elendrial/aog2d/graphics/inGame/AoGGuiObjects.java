@@ -16,15 +16,21 @@ public class AoGGuiObjects {
 	// Standard gui sets
 	
 	public static GUISet summonSet = new GUISet();
+	public static HashMap<Player, GUIOptionBox> godSummonOptionBox = new HashMap<Player, GUIOptionBox>(); // TODO: Maybe remove some of these, like once we've got the godSummonOptionBox then it saves all the others...
 	public static HashMap<String, GUIOption> godSummonOptions = new HashMap<String, GUIOption>();
 	public static HashMap<String, GUIOptionBox> unitSummonMenus = new HashMap<String, GUIOptionBox>();
 	
 	// Standard gui elements
 	
 	public static GUIOptionBox getSummonGUI(Player p) {
+		if(godSummonOptionBox.containsKey(p)) return godSummonOptionBox.get(p);
+		
 		GUIOptionBox box = new GUIOptionBox(AoGStyleGroup.getInstance().styles.get("summonMenu"));
 		
 		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(e.getKey(), e.getValue())));
+		
+		summonSet.addElement(box);
+		godSummonOptionBox.put(p, box);
 		
 		return box;
 	}
