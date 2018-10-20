@@ -11,7 +11,8 @@ public class StandardPlayerBuilder implements PlayerBuilder {
 	private Color color;
 	
 	public StandardPlayerBuilder setGods(God[] gods) {
-		if(gods.length != 3) throw new RuntimeException("Must pass an array of length 3 to setGods()");
+		// TODO: Handle this better
+		if(gods.length != 3) throw new RuntimeException("Must pass an array of length 3 to setGods(), do not include NEUTRAL.");
 		playerGods = gods;
 		return this;
 	}

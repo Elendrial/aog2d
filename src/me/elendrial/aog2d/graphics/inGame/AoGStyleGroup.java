@@ -18,8 +18,13 @@ public class AoGStyleGroup extends GUIStyleGroup{
 		super();
 		
 		// TODO: Add GUIStyles... ("unitSummonMenu")
-		GUIStyle summonMenu = new GUIStyle(); // I think it's just empty... Maybe I'll have to look through and consolidate a load of these.
-		styles.put("summonMenu", summonMenu);
+		GUIStyle summonMenu = GUIStyle.getDefault();
+		summonMenu.metaStyle.dimensions.setLocation(20, 20);
+		addStyle("summonMenu", summonMenu);
+		
+		GUIStyle unitSummonMenu = GUIStyle.getDefault();
+		unitSummonMenu.metaStyle.dimensions.setLocation(20, 20);
+		addStyle("unitSummonMenu", unitSummonMenu);
 		
 	}
 	

@@ -17,7 +17,7 @@ public class God {
 		this.color = color;
 		this.units = new ArrayList<Class<? extends Unit>>();
 		
-		TextureRegistry.addTexture("textures/gui/godIcons/" + name + ".png", name + "_icon", 0);
+		TextureRegistry.addTexture("textures/gui/godIcons/" + name + ".png", name + "_icon", 1);
 	}
 	
 	public void addUnit(Class<? extends Unit> unit) {

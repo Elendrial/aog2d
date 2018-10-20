@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
+import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
 import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
@@ -55,8 +56,8 @@ public class Initialisation implements IInitialiser{
 		// TODO: Add menus
 		
 		// Temporary setup, AoGLevel should be more dynamically created from a menu with options etc.
-		Player p1 = new Player(Color.RED);
-		Player p2 = new Player(Color.BLUE);
+		Player p1 = new StandardPlayerBuilder().setColor(Color.RED).build();
+		Player p2 = new StandardPlayerBuilder().setColor(Color.BLUE).build();
 		LevelHandler.addLevel(new AoGLevel(new Player[] {p1,p2}), "aogLevel");
 	}
 

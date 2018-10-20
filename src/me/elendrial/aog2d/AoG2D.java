@@ -10,6 +10,7 @@ public class AoG2D {
 		
 		// Temporary, probably should triple the size at least.
 		EngineSettings.Texture.tileSize = 30;
+		EngineSettings.Logging.tpsPrinter = false;
 		
 		GameController.loadAndStartGame("AoG2D", 1000, 800);
 	}
