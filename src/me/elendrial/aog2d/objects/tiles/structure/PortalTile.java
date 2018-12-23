@@ -5,9 +5,7 @@ import me.elendrial.aog2d.graphics.inGame.AoGGuiObjects;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
 
 public class PortalTile extends StructureTile{
-	
-	public boolean thisSummonMenuOpen = false;
-	
+		
 	public PortalTile() {
 		this.canPassThrough = true;
 		this.tileName = "portal";
@@ -24,11 +22,7 @@ public class PortalTile extends StructureTile{
 		LevelHandler.getCurrentLevel().addEntity(b);*/
 		
 		closeSummonMenus();
-		
-		if(!thisSummonMenuOpen)
-			openSummonMenu(p);
-		else
-			thisSummonMenuOpen = false;
+		openSummonMenu(p);
 	}
 	
 	public void deselect(Player p) {
@@ -41,8 +35,6 @@ public class PortalTile extends StructureTile{
 		
 		ob.setPosition(this.getPosition());
 		ob.show();
-
-		thisSummonMenuOpen = true;
 	}
 	
 	public static void closeSummonMenus() {

@@ -24,34 +24,59 @@ public class ClickController implements IInputListener{
 		// TODO: When splitting into client/server pair, change this to pass the player as the one on the client.
 		// If entity on tile, onClick() that, else onClick() the tile.
 		
-		// If something beforehand as already dealt with the click, we should not touch it
+		boolean updateSelect = false;
+		// If something beforehand has already dealt with the click, we should not touch it
 		if(!b){
 			System.out.println("in clickcontroller logic");
 			Vector clickPosition = new Vector(e.getX(), e.getY()).translate(Camera.getPosition().negated());
 			Player clickingPlayer = parentLevel.turnController.getCurrentPlayer();
+			updateSelect = true;
 			
-			deselectAll(clickingPlayer);
+			Unit newUnit = (Unit) parentLevel.getEntityGrid().getObjectAtRealPosition(e.getX(), e.getY());
+			AoGTile newTile = (AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(clickPosition);
 			
-			if(parentLevel.getEntityGrid().getObjectAtRealPosition(e.getX(), e.getY()) != null) {
-				selectedUnit = (Unit) parentLevel.getEntityGrid().getObjectAtRealPosition(clickPosition); // I know that all entities will be Units
-				selectedUnit.select(clickingPlayer);
+			if(selectedUnit != null) {
+				if(newTile != null) deselectUnit(clickingPlayer);
+				else if(!selectedUnit.equals(newUnit)) deselectUnit(clickingPlayer);
+				else updateSelect = false;
 			}
 			else {
-				selectedTile = (AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(clickPosition);
-				selectedTile.select(clickingPlayer);
+				if(newUnit != null) deselectTile(clickingPlayer);
+				else if(!newTile.equals(selectedTile)) deselectTile(clickingPlayer);
+				else updateSelect = false;
+			}
+			
+			if(updateSelect) {
+				if(newUnit != null) {
+					selectedUnit = newUnit; 
+					selectedUnit.select(clickingPlayer);
+				}
+				else {
+					selectedTile = newTile;
+					selectedTile.select(clickingPlayer);
+				}
 			}
 		}
-		return false;
+		
+		return updateSelect;
 	}
 
-	public void deselectAll(Player p) {
-		if(selectedUnit != null) {
-			selectedUnit.deselect(p);
-			selectedUnit = null;
-		}
+	public void deselect(Player p) {
+		deselectUnit(p);
+		deselectTile(p);
+	}
+	
+	private void deselectTile(Player p) {
 		if(selectedTile != null) {
 			selectedTile.deselect(p);
 			selectedTile = null;
+		}
+	}
+	
+	private void deselectUnit(Player p){
+		if(selectedUnit != null) {
+			selectedUnit.deselect(p);
+			selectedUnit = null;
 		}
 	}
 	

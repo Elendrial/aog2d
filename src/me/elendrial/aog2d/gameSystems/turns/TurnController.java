@@ -30,7 +30,7 @@ public class TurnController {
 	}
 	
 	private void endTurn() {
-		parentLevel.clickController.deselectAll(getCurrentPlayer());
+		parentLevel.clickController.deselect(getCurrentPlayer());
 	}
 	
 	private void beginTurn() {
