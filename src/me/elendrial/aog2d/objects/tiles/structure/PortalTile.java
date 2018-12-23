@@ -18,7 +18,7 @@ public class PortalTile extends StructureTile{
 	}
 	
 	@Override
-	public void onClick(Player p) {
+	public void select(Player p) {
 	/*	BarbarianUnit b = (BarbarianUnit) EntityRegistry.getEntity("barbarian");
 		b.setGridPosition(getGrid().getPositionOf(this));
 		LevelHandler.getCurrentLevel().addEntity(b);*/
@@ -29,6 +29,11 @@ public class PortalTile extends StructureTile{
 			openSummonMenu(p);
 		else
 			thisSummonMenuOpen = false;
+	}
+	
+	public void deselect(Player p) {
+		closeSummonMenus();
+		//thisSummonMenuOpen = false;
 	}
 	
 	public void openSummonMenu(Player p) {

@@ -1,5 +1,6 @@
 package me.elendrial.aog2d.graphics.inGame;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +29,12 @@ public class AoGGuiObjects {
 	public static GUIOptionBox getSummonGUI(Player p) {
 		if(godSummonOptionBox.containsKey(p)) return godSummonOptionBox.get(p);
 		
-		GUIOptionBox box = new GUIOptionBox(AoGStyleGroup.getInstance().getStyle("summonMenu"));
+		GUIOptionBox box = new GUIOptionBox(AoGStyleGroup.getInstance().getStyle("summonMenu")) {
+			public boolean onClick(MouseEvent e) {
+				System.out.println("optionbox");
+				return true;
+			}
+		};
 		box.addTag("summonMenu");
 		
 		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(e.getKey(), e.getValue())));
@@ -59,6 +65,11 @@ public class AoGGuiObjects {
 		// TODO: make sure this isn't too inefficient.
 		GUIOption o = new GUIOption(s) {
 			GUIOptionBox unitOptionBox = unitSummonMenus.get(g.name + "_units");
+			
+			public boolean onClick(MouseEvent e) {
+				System.out.println("option");
+				return true;
+			}
 			
 			public void onSelect() {
 				this.parentGuiSet.hideAllWithTag("unitOptions");

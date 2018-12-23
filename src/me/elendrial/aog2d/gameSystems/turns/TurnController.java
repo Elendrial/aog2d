@@ -30,11 +30,11 @@ public class TurnController {
 	}
 	
 	private void endTurn() {
-		// Not sure what'd happen here, except maybe show next player graphic?
+		parentLevel.clickController.deselectAll(getCurrentPlayer());
 	}
 	
 	private void beginTurn() {
-		// Collect Mana
+		// Collect Mana, move to player's Chief Barbarian/first portal/etc
 	}
 	
 }

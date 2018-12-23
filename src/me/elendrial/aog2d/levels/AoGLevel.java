@@ -26,7 +26,7 @@ public class AoGLevel extends BaseLevel {
 		turnController = new TurnController(players, this);
 		clickController = new ClickController(this);
 		
-		InputHandler.addInputListener(clickController);
+		InputHandler.addLateInputListener(clickController);
 		
 		// Temporary, should be replaced with a proper map loader
 		

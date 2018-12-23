@@ -13,6 +13,8 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public void updateOnTick() {}
 	public void updateOnSec() {}
 	
+	public void select(Player p) {} // TODO: show where the unit can move
+	public void deselect(Player p) {}
 	
 	public int health;
 	public int maxHealth;

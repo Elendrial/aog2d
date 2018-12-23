@@ -5,15 +5,16 @@ import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
-	public abstract void onClick(Player p);
-	
-	// Defense Bonus
+	// Defence Bonus
 	// Effect on movement
 	
 	public void onLoad() {}
 	public void onUnload() {}
 	public void updateOnTick() {}
 	public void updateOnSec() {}
+	
+	public void select(Player p) {}  // Show some basic information
+	public void deselect(Player p) {}
 	
 	// Almost all will default to these values, might as well have them here
 	@Override
