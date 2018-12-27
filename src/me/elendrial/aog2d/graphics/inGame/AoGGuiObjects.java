@@ -79,7 +79,7 @@ public class AoGGuiObjects {
 			// TODO: Figure out why the parentGuiSet isn't being set for the option
 				parentBox.getParentGuiSet().hideAllWithTag("unitOptions");
 				summonSet.addElement(unitOptionBox);
-				unitOptionBox.setPosition(position.getLocation().translate(parentBox.getPosition()));
+				unitOptionBox.setPosition(parentBox.getPosition());
 				unitOptionBox.show();
 			}
 		};
@@ -109,29 +109,29 @@ public class AoGGuiObjects {
 		int amount = g.units.size();
 		for(int i = 0; i < amount; i++){
 			AtomicInteger aI = new AtomicInteger(i);
+			try {
+				GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.units.get(i).newInstance().getTextureKey(), 0));
 			
-			GUIOption o = new GUIOption(defaultStyle) {
-				public void onSelect() {
-					parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
-					Unit u;
-					try {
-						u = g.units.get(aI.get()).newInstance();
-							u.setGridPosition(1, 1);
-						LevelHandler.getCurrentLevel().addEntity(u);
-					} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
-				}
-			};
-			
-			Vector pos = new Vector(unitMenu.getDimensions().getX()/2, unitMenu.getDimensions().getY()/2);
-			
-			// TODO: Check that this is actually an appropriate distance from the center point.
-			// Maybe use pos.rotate instead of bothering with sin & cos here
-			pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX(), Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX());
-			
-			o.addTag("summonMenu");
-			o.addTag("unitOptions");
-			o.setPosition(pos);
-			unitMenu.addOption(o);
+				GUIOption o = new GUIOption(s) {
+					public void onSelect() {
+						parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
+						Unit u;
+						try {
+							u = g.units.get(aI.get()).newInstance();
+							u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
+							LevelHandler.getCurrentLevel().addEntity(u);
+						} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
+					}
+				};
+				
+				Vector pos = new Vector(0, -60).rotateDeg((360/amount) * i);
+			//	pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX(), Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX());
+				
+				o.addTag("summonMenu");
+				o.addTag("unitOptions");
+				o.setPosition(pos);
+				unitMenu.addOption(o);
+			} catch (InstantiationException | IllegalAccessException e1) {e1.printStackTrace();}
 		}
 		
 		unitMenu.addTag("unitOptions");

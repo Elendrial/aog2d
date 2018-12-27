@@ -22,7 +22,7 @@ public class AoGStyleGroup extends GUIStyleGroup{
 		addStyle("summonMenu", summonMenu);
 		
 		GUIStyle unitSummonMenu = GUIStyle.getDefault();
-		unitSummonMenu.metaStyle.dimensions.setLocation(20, 20);
+		unitSummonMenu.metaStyle.dimensions.setLocation(30, 30);
 		addStyle("unitSummonMenu", unitSummonMenu);
 		
 	}
