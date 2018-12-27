@@ -27,7 +27,6 @@ public class ClickController implements IInputListener{
 		boolean updateSelect = false;
 		// If something beforehand has already dealt with the click, we should not touch it
 		if(!b){
-			System.out.println("in clickcontroller logic");
 			Vector clickPosition = new Vector(e.getX(), e.getY()).translate(Camera.getPosition().negated());
 			Player clickingPlayer = parentLevel.turnController.getCurrentPlayer();
 			updateSelect = true;

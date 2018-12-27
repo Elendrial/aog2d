@@ -3,9 +3,11 @@ package me.elendrial.aog2d.graphics.inGame;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.EngineSettings;
 import me.hii488.dataTypes.Vector;
 import me.hii488.graphics.gui.GUISet;
@@ -13,6 +15,7 @@ import me.hii488.graphics.gui.premadeTypes.GUIOption;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyle.BackgroundStyle;
+import me.hii488.handlers.LevelHandler;
 
 public class AoGGuiObjects {
 	
@@ -31,17 +34,24 @@ public class AoGGuiObjects {
 		
 		GUIOptionBox box = new GUIOptionBox(AoGStyleGroup.getInstance().getStyle("summonMenu")) {
 			public boolean onClick(MouseEvent e) {
-				System.out.println("optionbox");
-				return true;
+				boolean updated = false;
+				for(int i = 0; i < options.size(); i++) {
+					if(options.get(i).getBoundingBox().containsPoint(e.getX() - position.getIX(), e.getY() - position.getIY())) {
+						updated = true;
+						options.get(i).onSelect();
+					}
+				}
+				
+				return updated;
 			}
 		};
 		box.addTag("summonMenu");
+		box.setElementName("summonMenuBox" + p.color);
 		
 		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(e.getKey(), e.getValue())));
 		
 		ArrayList<GUIOption> options = box.getOptions();
 		for(int i = 0; i < options.size(); i++) {
-			System.out.println(options.get(i).getElementName());
 			Vector pos = new Vector(0, -30);														 // How far away from the portal/center it is
 			pos.rotateDeg(360/options.size() * i);												 // Rotate into correct position.
 			pos.translate(EngineSettings.Texture.tileSize/2 - options.get(i).getDimensions().getIX()/2, EngineSettings.Texture.tileSize/2 - options.get(i).getDimensions().getIY()/2); // Center on middle of tile
@@ -60,19 +70,16 @@ public class AoGGuiObjects {
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().getStyle("summonMenu");
 		GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.name + "_icon", 0)); // TODO: Improve these icons
 		
-		if(unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
+		if(!unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
 		
 		// TODO: make sure this isn't too inefficient.
 		GUIOption o = new GUIOption(s) {
 			GUIOptionBox unitOptionBox = unitSummonMenus.get(g.name + "_units");
-			
-			public boolean onClick(MouseEvent e) {
-				System.out.println("option");
-				return true;
-			}
-			
 			public void onSelect() {
-				this.parentGuiSet.hideAllWithTag("unitOptions");
+			// TODO: Figure out why the parentGuiSet isn't being set for the option
+				parentBox.getParentGuiSet().hideAllWithTag("unitOptions");
+				summonSet.addElement(unitOptionBox);
+				unitOptionBox.setPosition(position.getLocation().translate(parentBox.getPosition()));
 				unitOptionBox.show();
 			}
 		};
@@ -85,26 +92,50 @@ public class AoGGuiObjects {
 	private static GUIOptionBox generateUnitOptionList(God g) {
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().getStyle("unitSummonMenu");
 		
-		GUIOptionBox unitMenu = new GUIOptionBox(defaultStyle);
+		GUIOptionBox unitMenu = new GUIOptionBox(defaultStyle) {
+			public boolean onClick(MouseEvent e) {
+				boolean updated = false;
+				for(int i = 0; i < options.size(); i++) {
+					if(options.get(i).getBoundingBox().containsPoint(e.getX() - position.getIX(), e.getY() - position.getIY())) {
+						updated = true;
+						options.get(i).onSelect();
+					}
+				}
+				
+				return updated;
+			}
+		};
 		
 		int amount = g.units.size();
-		for(int i = 0; i < amount; i++) {
+		for(int i = 0; i < amount; i++){
+			AtomicInteger aI = new AtomicInteger(i);
 			
 			GUIOption o = new GUIOption(defaultStyle) {
 				public void onSelect() {
-					// TODO: Close all summon menus, summon the unit.
+					parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
+					Unit u;
+					try {
+						u = g.units.get(aI.get()).newInstance();
+							u.setGridPosition(1, 1);
+						LevelHandler.getCurrentLevel().addEntity(u);
+					} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
 				}
 			};
 			
 			Vector pos = new Vector(unitMenu.getDimensions().getX()/2, unitMenu.getDimensions().getY()/2);
 			
 			// TODO: Check that this is actually an appropriate distance from the center point.
-			pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX()/3, Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX()/3);
+			// Maybe use pos.rotate instead of bothering with sin & cos here
+			pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX(), Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX());
 			
 			o.addTag("summonMenu");
+			o.addTag("unitOptions");
 			o.setPosition(pos);
 			unitMenu.addOption(o);
 		}
+		
+		unitMenu.addTag("unitOptions");
+		unitMenu.addTag("summonMenu");
 		
 		return unitMenu;
 	}

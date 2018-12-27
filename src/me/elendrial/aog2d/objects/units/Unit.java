@@ -8,6 +8,8 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	// Things that may also be needed: Attack range. Movement modifiers outside of class
 	
+	private String name;
+	
 	public void onLoad() {}
 	public void onUnload() {}
 	public void updateOnTick() {}
@@ -52,7 +54,11 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public void kill() {
-		// TODO
+		// TODO: Unit death
+	}
+	
+	public String getUnitName() {
+		return name;
 	}
 	
 	// Type advantages will be defined in dedicated attacking code.
