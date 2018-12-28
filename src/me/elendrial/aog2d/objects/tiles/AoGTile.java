@@ -1,12 +1,14 @@
 package me.elendrial.aog2d.objects.tiles;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
 	// Defence Bonus
-	// Effect on movement
+	
+	public abstract double movementCost(Unit unit);
 	
 	public void onLoad() {}
 	public void onUnload() {}

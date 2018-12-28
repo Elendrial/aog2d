@@ -1,7 +1,11 @@
 package me.elendrial.aog2d.objects.units;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
+import me.hii488.dataTypes.Vector;
 import me.hii488.gameObjects.entities.GridEntity;
 
 public abstract class Unit extends GridEntity implements IUpdating {
@@ -15,9 +19,6 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public void updateOnTick() {}
 	public void updateOnSec() {}
 	
-	public void select(Player p) {} // TODO: show where the unit can move
-	public void deselect(Player p) {}
-	
 	public int health;
 	public int maxHealth;
 	
@@ -30,9 +31,26 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	abstract public UnitClass getUnitClass();
 	abstract public boolean isSummonable();
 	
-	public void onClick(Player p) {
-		// Brings up movement highlighting etc.
-		System.out.println("unit clicked");
+	public void select(Player p) {
+		HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
+		HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>();
+		ArrayList<Vector> toSearch = new ArrayList<Vector>();
+		
+		toSearch.add(this.gridPosition.getLocation().translate(0,1));
+		toSearch.add(this.gridPosition.getLocation().translate(0,-1));
+		toSearch.add(this.gridPosition.getLocation().translate(-1,0));
+		toSearch.add(this.gridPosition.getLocation().translate(1,0));
+		
+		while(toSearch.size() > 0) {
+			for(Vector v : toSearch) {
+				
+			}
+		}
+		
+	}
+	
+	public void deselect(Player p) {
+		// Hide all the movement highlighting.
 	}
 	
 	public int getHealth() {

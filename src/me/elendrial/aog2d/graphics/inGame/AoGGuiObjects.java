@@ -13,6 +13,7 @@ import me.hii488.dataTypes.Vector;
 import me.hii488.graphics.gui.GUISet;
 import me.hii488.graphics.gui.premadeTypes.GUIOption;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
+import me.hii488.graphics.gui.premadeTypes.GUIStandardBox;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyle.BackgroundStyle;
 import me.hii488.handlers.LevelHandler;
@@ -110,6 +111,7 @@ public class AoGGuiObjects {
 		for(int i = 0; i < amount; i++){
 			AtomicInteger aI = new AtomicInteger(i);
 			try {
+				// TODO: Change these to display cost & stats etc - maybe on hover
 				GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.units.get(i).newInstance().getTextureKey(), 0));
 			
 				GUIOption o = new GUIOption(s) {
@@ -138,5 +140,9 @@ public class AoGGuiObjects {
 		unitMenu.addTag("summonMenu");
 		
 		return unitMenu;
+	}
+
+	public static GUIStandardBox generateMovementOverlays() {
+		return null;
 	}
 }

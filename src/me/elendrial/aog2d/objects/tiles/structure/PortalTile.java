@@ -2,6 +2,7 @@ package me.elendrial.aog2d.objects.tiles.structure;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.graphics.inGame.AoGGuiObjects;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
 
 public class PortalTile extends StructureTile{
@@ -39,6 +40,11 @@ public class PortalTile extends StructureTile{
 	
 	public static void closeSummonMenus() {
 		AoGGuiObjects.summonSet.hideAllWithTag("summonMenu");
+	}
+
+	@Override
+	public double movementCost(Unit unit) {
+		return 1;
 	}
 
 }

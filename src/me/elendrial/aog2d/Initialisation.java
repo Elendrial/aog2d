@@ -9,6 +9,7 @@ import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
+import me.elendrial.aog2d.objects.units.BarbarianChieftainUnit;
 import me.elendrial.aog2d.objects.units.BarbarianUnit;
 import me.hii488.controllers.InitialisationController;
 import me.hii488.handlers.LevelHandler;
@@ -44,11 +45,13 @@ public class Initialisation implements IInitialiser{
 	
 	public void registerEntities() {
 		EntityRegistry.registerEntity(new BarbarianUnit());
+		EntityRegistry.registerEntity(new BarbarianChieftainUnit());
 	}
 	
 	public void alignUnits() {
 		// Setup God/Unit affiliations
 		God.NEUTRAL.addUnit(BarbarianUnit.class);
+		God.NEUTRAL.addUnit(BarbarianChieftainUnit.class);
 	}
 
 	@Override
