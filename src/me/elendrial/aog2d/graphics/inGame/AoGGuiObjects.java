@@ -3,7 +3,6 @@ package me.elendrial.aog2d.graphics.inGame;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
@@ -54,7 +53,7 @@ public class AoGGuiObjects {
 		ArrayList<GUIOption> options = box.getOptions();
 		for(int i = 0; i < options.size(); i++) {
 			Vector pos = new Vector(0, -30);														 // How far away from the portal/center it is
-			pos.rotateDeg(360/options.size() * i);												 // Rotate into correct position.
+			pos.rotateDeg(360/options.size() * i);													 // Rotate into correct position.
 			pos.translate(EngineSettings.Texture.tileSize/2 - options.get(i).getDimensions().getIX()/2, EngineSettings.Texture.tileSize/2 - options.get(i).getDimensions().getIY()/2); // Center on middle of tile
 			options.get(i).setPosition(pos);
 		}
@@ -107,34 +106,36 @@ public class AoGGuiObjects {
 			}
 		};
 		
-		int amount = g.units.size();
-		for(int i = 0; i < amount; i++){
-			AtomicInteger aI = new AtomicInteger(i);
+		for(Class<? extends Unit> unit : g.units){
 			try {
-				// TODO: Change these to display cost & stats etc - maybe on hover
-				GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.units.get(i).newInstance().getTextureKey(), 0));
-			
-				GUIOption o = new GUIOption(s) {
-					public void onSelect() {
-						parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
-						Unit u;
-						try {
-							u = g.units.get(aI.get()).newInstance();
-							u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
-							LevelHandler.getCurrentLevel().addEntity(u);
-						} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
-					}
-				};
+				if(unit.newInstance().isSummonable()) {
+					// TODO: Change these to display cost & stats etc - maybe on hover
+					GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), unit.newInstance().getTextureKey(), 0));
 				
-				Vector pos = new Vector(0, -60).rotateDeg((360/amount) * i);
-			//	pos.translate(Math.cos(2 * Math.PI / amount) * unitMenu.getDimensions().getX(), Math.sin(2 * Math.PI / amount)* unitMenu.getDimensions().getX());
-				
-				o.addTag("summonMenu");
-				o.addTag("unitOptions");
-				o.setPosition(pos);
-				unitMenu.addOption(o);
+					GUIOption o = new GUIOption(s) {
+						public void onSelect() {
+							parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
+							Unit u;
+							try {
+								u = unit.newInstance();
+								u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
+								LevelHandler.getCurrentLevel().addEntity(u);
+							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
+						}
+					};
+					
+
+					o.addTag("summonMenu");
+					o.addTag("unitOptions");
+					unitMenu.addOption(o);
+				}
 			} catch (InstantiationException | IllegalAccessException e1) {e1.printStackTrace();}
 		}
+		
+		// Position the options separately to allow for some units not to be shown.
+		for(int i = 0; i < unitMenu.getOptions().size(); i++)
+			unitMenu.getOptions().get(i).setPosition(new Vector(0, -60).rotateDeg((360/unitMenu.getOptions().size()) * i));
+		
 		
 		unitMenu.addTag("unitOptions");
 		unitMenu.addTag("summonMenu");

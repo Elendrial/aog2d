@@ -57,4 +57,9 @@ public class BarbarianUnit extends Unit{
 		return true;
 	}
 
+	@Override
+	public double getMovementDistance() {
+		return 5; // TODO: Set this number properly
+	}
+
 }

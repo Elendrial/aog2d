@@ -57,7 +57,7 @@ An estimated 22% of the 'core' is done.
 
 
 ## Notes:
-####### (for myself as much as others)
+###### (for myself as much as others)
 - Structure tiles are ones which can be captured for points, environment are anything else. (ie: walls are environment)
 - A menu is still a 'level', just a highly specialised one comprising of only GUIs.
 - Maybe make a tile builder, so I don't end up with ~10 classes, each with only 5 lines of code?

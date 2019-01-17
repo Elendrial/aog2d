@@ -8,7 +8,7 @@ import me.elendrial.aog2d.gameSystems.players.Player;
 public class StandardPlayerBuilder implements PlayerBuilder {
 
 	private God[] playerGods = new God[] {God.SARADOMIN, God.ZAMORAK, God.GUTHIX};
-	private Color color;
+	private Color color = Color.RED;
 	
 	public StandardPlayerBuilder setGods(God[] gods) {
 		// TODO: Handle this better
