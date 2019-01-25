@@ -2,6 +2,8 @@ package me.elendrial.aog2d.objects.units;
 
 public class BarbarianUnit extends Unit{
 
+	public static int[] attackRange = {1};
+	
 	public BarbarianUnit() {
 		super();
 		this.entityName = "barbarian";
@@ -37,7 +39,7 @@ public class BarbarianUnit extends Unit{
 	public void onMove() {}
 
 	@Override
-	public void onAttack() {}
+	public void onAttack(int distance) {}
 
 	@Override
 	public void onEndTurn() {}
@@ -60,6 +62,11 @@ public class BarbarianUnit extends Unit{
 	@Override
 	public double getMovementDistance() {
 		return 5; // TODO: Set this number properly
+	}
+
+	@Override
+	public int[] attackRange() {
+		return attackRange;
 	}
 
 }

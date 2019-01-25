@@ -12,12 +12,12 @@ import me.hii488.dataTypes.Vector;
 import me.hii488.graphics.gui.GUISet;
 import me.hii488.graphics.gui.premadeTypes.GUIOption;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
-import me.hii488.graphics.gui.premadeTypes.GUIStandardBox;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyle.BackgroundStyle;
 import me.hii488.handlers.LevelHandler;
 
 public class AoGGuiObjects {
+	// TODO: Take into account Player level & mana/resources
 	
 	//// GUI sets and saved groups ////
 	
@@ -119,6 +119,7 @@ public class AoGGuiObjects {
 							try {
 								u = unit.newInstance();
 								u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
+								// TODO: Set the unit's player
 								LevelHandler.getCurrentLevel().addEntity(u);
 							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
 						}
@@ -142,8 +143,5 @@ public class AoGGuiObjects {
 		
 		return unitMenu;
 	}
-
-	public static GUIStandardBox generateMovementOverlays() {
-		return null;
-	}
+	
 }

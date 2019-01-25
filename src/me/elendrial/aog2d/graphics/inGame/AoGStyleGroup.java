@@ -1,5 +1,6 @@
 package me.elendrial.aog2d.graphics.inGame;
 
+import me.hii488.EngineSettings;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyleGroup;
 
@@ -24,6 +25,10 @@ public class AoGStyleGroup extends GUIStyleGroup{
 		GUIStyle unitSummonMenu = GUIStyle.getDefault();
 		unitSummonMenu.metaStyle.dimensions.setLocation(30, 30);
 		addStyle("unitSummonMenu", unitSummonMenu);
+		
+		GUIStyle tileOverlay = GUIStyle.getDefault();
+		tileOverlay.metaStyle.dimensions.setLocation(EngineSettings.Texture.tileSize, EngineSettings.Texture.tileSize);
+		addStyle("tileOverlay", tileOverlay);
 		
 	}
 	
