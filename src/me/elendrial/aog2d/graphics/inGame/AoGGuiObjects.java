@@ -17,12 +17,12 @@ import me.hii488.graphics.gui.style.GUIStyle.BackgroundStyle;
 import me.hii488.handlers.LevelHandler;
 
 public class AoGGuiObjects {
-	// TODO: Take into account Player level & mana/resources
+	// TODO: Take into account Player level & mana/resources - Maybe generate menus as we do and then add 'covers' so you can't actually press the button?
 	
 	//// GUI sets and saved groups ////
 	
 	public static GUISet summonSet = new GUISet();
-	public static HashMap<Player, GUIOptionBox> godSummonOptionBox = new HashMap<Player, GUIOptionBox>(); // TODO: Maybe remove some of these, like once we've got the godSummonOptionBox then it saves all the others...
+	public static HashMap<Player, GUIOptionBox> godSummonOptionBox = new HashMap<Player, GUIOptionBox>(); // TODO: Possibly remove this one, as the others will essentially save it anyway?
 	public static HashMap<String, GUIOption> godSummonOptions = new HashMap<String, GUIOption>();
 	public static HashMap<String, GUIOptionBox> unitSummonMenus = new HashMap<String, GUIOptionBox>();
 	
@@ -48,7 +48,7 @@ public class AoGGuiObjects {
 		box.addTag("summonMenu");
 		box.setElementName("summonMenuBox" + p.color);
 		
-		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(e.getKey(), e.getValue())));
+		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(p, e.getKey(), e.getValue())));
 		
 		ArrayList<GUIOption> options = box.getOptions();
 		for(int i = 0; i < options.size(); i++) {
@@ -64,13 +64,13 @@ public class AoGGuiObjects {
 		return box;
 	}
 	
-	private static GUIOption generateGodOption(God g, int level) {
+	private static GUIOption generateGodOption(Player p, God g, int level) {
 		if(godSummonOptions.containsKey(g.name)) return godSummonOptions.get(g.name);
 		
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().getStyle("summonMenu");
 		GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.name + "_icon", 0)); // TODO: Improve these icons
 		
-		if(!unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
+		if(!unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(p, g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
 		
 		// TODO: make sure this isn't too inefficient.
 		GUIOption o = new GUIOption(s) {
@@ -89,7 +89,7 @@ public class AoGGuiObjects {
 		return o;
 	}
 	
-	private static GUIOptionBox generateUnitOptionList(God g) {
+	private static GUIOptionBox generateUnitOptionList(Player p, God g) {
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().getStyle("unitSummonMenu");
 		
 		GUIOptionBox unitMenu = new GUIOptionBox(defaultStyle) {
@@ -119,6 +119,7 @@ public class AoGGuiObjects {
 							try {
 								u = unit.newInstance();
 								u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
+								u.setPlayer(p);
 								// TODO: Set the unit's player
 								LevelHandler.getCurrentLevel().addEntity(u);
 							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}

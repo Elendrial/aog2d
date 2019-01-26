@@ -5,11 +5,13 @@ import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
+import me.elendrial.aog2d.graphics.inGame.GUITileHighlight;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.hii488.dataTypes.Grid;
 import me.hii488.dataTypes.Vector;
 import me.hii488.gameObjects.entities.GridEntity;
 import me.hii488.gameObjects.tiles.BaseTile;
+import me.hii488.graphics.gui.GUISet;
 import me.hii488.handlers.LevelHandler;
 
 public abstract class Unit extends GridEntity implements IUpdating {
@@ -28,14 +30,15 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int maxHealth;
 	
 	abstract public void onStartTurn();
-	abstract public void onMove();
-	abstract public void onAttack();
+	abstract public void onMove(); // TODO: have this take in an int for how far.
+	abstract public void onAttack(int distance);
 	abstract public void onEndTurn();
 	
 	abstract public int getCost();
 	abstract public UnitClass getUnitClass();
 	abstract public double getMovementDistance();
 	abstract public boolean isSummonable();
+	abstract public int[] attackRange();
 	
 	public Unit setPlayer(Player p) {
 		player = p;
@@ -50,6 +53,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		if(p.equals(player)) { // Only the correct player can move the unit
 			
 			// I promise this is just Dijkstra
+			// TODO: Rewrite this so it's not a mess (maybe look through Algs & Data Structs module notes?)
 			
 			HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
 			HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>();
@@ -115,7 +119,17 @@ public abstract class Unit extends GridEntity implements IUpdating {
 				}
 			}
 			
-			
+			// TODO: Combine this with the loop above?
+			GUISet highlightSet = new GUISet();
+			for(Vector v : exploredLocations) {
+				if(movementCost.get(v) < this.getMovementDistance()) {
+					GUITileHighlight tilehighlight = new GUITileHighlight(this, v);
+					tilehighlight.getStyle().backgroundStyle.setTextureKey("moveOverlay");
+					tilehighlight.setDimensions(new Vector(30,30));
+					highlightSet.addElement(tilehighlight);
+				}
+			}
+			this.parentLevel.getGUI().addGUISet(highlightSet);
 			
 		}
 	}

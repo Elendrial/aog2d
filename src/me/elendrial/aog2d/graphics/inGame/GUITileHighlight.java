@@ -13,6 +13,7 @@ public class GUITileHighlight extends GUIStandardBox{
 		this.setStyle(AoGStyleGroup.getInstance().getStyle("tileOverlay"), true);
 		this.setPosition(position);
 		callbackUnit = toMove;
+		addTag("tileHighlight");
 	}
 	
 	@Override

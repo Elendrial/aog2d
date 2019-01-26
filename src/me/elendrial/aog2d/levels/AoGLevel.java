@@ -36,7 +36,9 @@ public class AoGLevel extends BaseLevel {
 		this.getTileGrid().fillDimensionsWith(0, 0, getTileGrid().getWidth(), getTileGrid().getHeight(), OutsideWallTile.class); // TODO: Create wallDimensionsWith() in Grid
 		this.getTileGrid().fillDimensionsWith(1, 1, getTileGrid().getWidth()-1, getTileGrid().getHeight()-1, OpenTile.class);
 		
-		this.getTileGrid().setObjectAt(5, 5, new PortalTile());
+		PortalTile pt = new PortalTile();
+		pt.capturedBy = p[0];
+		this.getTileGrid().setObjectAt(5, 5, pt);
 		
 		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
 		

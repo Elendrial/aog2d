@@ -6,7 +6,8 @@ import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
 
 public class PortalTile extends StructureTile{
-		
+	// TODO: Change portal colour based off who owns it. (or at least some indicator)
+	
 	public PortalTile() {
 		this.canPassThrough = true;
 		this.tileName = "portal";
