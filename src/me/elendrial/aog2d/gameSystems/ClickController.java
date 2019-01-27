@@ -35,7 +35,7 @@ public class ClickController implements IInputListener{
 			AoGTile newTile = (AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(clickPosition);
 			
 			if(selectedUnit != null) {
-				if(newTile != null) deselectUnit(clickingPlayer);
+				if(newUnit == null)	deselectUnit(clickingPlayer);
 				else if(!selectedUnit.equals(newUnit)) deselectUnit(clickingPlayer);
 				else updateSelect = false;
 			}

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
-import me.elendrial.aog2d.graphics.inGame.GUITileHighlight;
+import me.elendrial.aog2d.graphics.inGame.GUIMoveTileHighlight;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.levels.AoGLevel;
 import me.hii488.dataTypes.Grid;
@@ -146,11 +146,9 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			// TODO: Combine this with the loop above?
 			GUISet highlightSet = ((AoGLevel) parentLevel).tileOverlayGUISet;
 			for(Vector v : allowedLocations) {
-				GUITileHighlight tilehighlight = new GUITileHighlight(this, v.scale(this.parentGrid.getGridScale()));
-				tilehighlight.getStyle().backgroundStyle.setTextureKey("moveOverlay");
+				GUIMoveTileHighlight tilehighlight = new GUIMoveTileHighlight(this, v);
 				highlightSet.addElement(tilehighlight);
 			}
-			this.parentLevel.getGUI().addGUISet(highlightSet);
 			
 		}
 	}
@@ -158,6 +156,13 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public void deselect(Player p) {
 		// Hide all the movement highlighting.
 		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
+	}
+	
+	public void move(Vector v) {
+		System.out.println("moving object");
+		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
+		this.setGridPosition(v);
+		onMove();
 	}
 	
 	public int getHealth() {

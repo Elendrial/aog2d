@@ -30,6 +30,8 @@ public class AoGLevel extends BaseLevel {
 		clickController = new ClickController(this);
 		tileOverlayGUISet = new GUISet();
 		
+		this.getGUI().addGUISet(tileOverlayGUISet);
+		
 		InputHandler.addLateInputListener(clickController);
 		
 		// Temporary, should be replaced with a proper map loader
