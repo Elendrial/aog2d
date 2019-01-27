@@ -18,7 +18,7 @@ public class RoadTile extends AoGTile{
 		case TITAN:
 			return 1;
 		default:
-			return 0.5;
+			return 0.75;
 		}
 	}
 

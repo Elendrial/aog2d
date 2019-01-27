@@ -3,6 +3,8 @@ package me.elendrial.aog2d.graphics.inGame;
 import me.hii488.EngineSettings;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyleGroup;
+import me.hii488.logging.LogSeverity;
+import me.hii488.logging.Logger;
 
 public class AoGStyleGroup extends GUIStyleGroup{
 	

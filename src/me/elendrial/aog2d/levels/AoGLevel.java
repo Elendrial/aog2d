@@ -6,9 +6,11 @@ import me.elendrial.aog2d.gameSystems.turns.TurnController;
 import me.elendrial.aog2d.graphics.inGame.AoGGuiObjects;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
+import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
 import me.hii488.EngineSettings;
 import me.hii488.gameObjects.levels.BaseLevel;
+import me.hii488.graphics.gui.GUISet;
 import me.hii488.handlers.InputHandler;
 
 public class AoGLevel extends BaseLevel {
@@ -16,6 +18,7 @@ public class AoGLevel extends BaseLevel {
 	public TurnController turnController;
 	public ClickController clickController;
 	public Player[] players;
+	public GUISet tileOverlayGUISet;
 	
 	// TODO: Probably separate this out into 'load map', 'load players', 'start game' phases.
 	public AoGLevel(Player[] p) {
@@ -25,6 +28,7 @@ public class AoGLevel extends BaseLevel {
 		
 		turnController = new TurnController(players, this);
 		clickController = new ClickController(this);
+		tileOverlayGUISet = new GUISet();
 		
 		InputHandler.addLateInputListener(clickController);
 		

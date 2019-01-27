@@ -10,7 +10,7 @@ public class GUITileHighlight extends GUIStandardBox{
 	Unit callbackUnit;
 	
 	public GUITileHighlight(Unit toMove, Vector position) {
-		this.setStyle(AoGStyleGroup.getInstance().getStyle("tileOverlay"), true);
+		super(AoGStyleGroup.getInstance().getStyle("tileOverlay"));
 		this.setPosition(position);
 		callbackUnit = toMove;
 		addTag("tileHighlight");

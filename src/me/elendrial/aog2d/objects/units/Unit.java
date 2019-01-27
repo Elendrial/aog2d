@@ -7,6 +7,7 @@ import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
 import me.elendrial.aog2d.graphics.inGame.GUITileHighlight;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
+import me.elendrial.aog2d.levels.AoGLevel;
 import me.hii488.dataTypes.Grid;
 import me.hii488.dataTypes.Vector;
 import me.hii488.gameObjects.entities.GridEntity;
@@ -56,8 +57,10 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			// TODO: Rewrite this so it's not a mess (maybe look through Algs & Data Structs module notes?)
 			
 			HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
-			HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>();
+			HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>(), tempPath = new HashMap<Vector, ArrayList<Vector>>();
 			ArrayList<Vector> exploredLocations = new ArrayList<Vector>();
+			ArrayList<Vector> allowedLocations = new ArrayList<Vector>();
+			Vector[] adjacents = {new Vector(-1,0),new Vector(1,0),new Vector(0,-1),new Vector(0,1)};
 			
 			Grid<BaseTile> tileGrid = LevelHandler.getCurrentLevel().getTileGrid();
 			Grid<GridEntity> entityGrid = LevelHandler.getCurrentLevel().getEntityGrid();
@@ -67,8 +70,26 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			
 			movementCost.put(gridPosition, 0D);
 			path.put(gridPosition, base);
+			exploredLocations.add(gridPosition);
 			
+			double tileCost;
+			// Pre-add the adjacent tiles or it'll fail, adds a bit of mess.
+			for(Vector adjacent : adjacents) {
+				Vector v = gridPosition.getLocation().translate(adjacent);
+				
+				ArrayList<Vector> newPath = new ArrayList<>(path.get(gridPosition));
+	            newPath.add(v);
+	            
+				tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
+	            
+	            movementCost.put(v, movementCost.get(gridPosition) + tileCost);
+				path.put(v, newPath);
+			}
+			
+			
+			// Start actual Dijkstra
 			boolean foundNew = true;
+			Vector adj;
 			while(foundNew) {
 				foundNew = false;
 				
@@ -89,18 +110,18 @@ public abstract class Unit extends GridEntity implements IUpdating {
 						
 						if(allowed) {
 							foundNew = true;
-							Vector[] adjacents = {new Vector(-1,0),new Vector(1,0),new Vector(0,-1),new Vector(0,1)};
+							allowedLocations.add(v);
 							
 							for(Vector adjacent : adjacents) {
-								Vector adj = v.getLocation().translate(adjacent);
-								double tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
+								adj = v.getLocation().translate(adjacent);
+								tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
 								if(movementCost.containsKey(adj)) {
 									if(movementCost.get(adj) > movementCost.get(v) + tileCost) {
 										ArrayList<Vector> newPath = new ArrayList<>(path.get(v));
 			                            newPath.add(adj);
 			                            
 			                            movementCost.put(adj, movementCost.get(v) + tileCost);
-										path.put(adj, newPath);
+										tempPath.put(adj, newPath);
 										
 										// TODO: Check that this wont cause an infinite loop of constantly lowering min path dist until either a crash or wraparound
 										if(exploredLocations.contains(adj)) exploredLocations.remove(adj);
@@ -111,23 +132,23 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		                            newPath.add(adj);
 		                            
 		                            movementCost.put(adj, movementCost.get(v) + tileCost);
-									path.put(adj, newPath);
+		                            tempPath.put(adj, newPath);
 								}
 							}
 						}
 					}
 				}
+				
+				path.putAll(tempPath);
+				tempPath.clear();
 			}
 			
 			// TODO: Combine this with the loop above?
-			GUISet highlightSet = new GUISet();
-			for(Vector v : exploredLocations) {
-				if(movementCost.get(v) < this.getMovementDistance()) {
-					GUITileHighlight tilehighlight = new GUITileHighlight(this, v);
-					tilehighlight.getStyle().backgroundStyle.setTextureKey("moveOverlay");
-					tilehighlight.setDimensions(new Vector(30,30));
-					highlightSet.addElement(tilehighlight);
-				}
+			GUISet highlightSet = ((AoGLevel) parentLevel).tileOverlayGUISet;
+			for(Vector v : allowedLocations) {
+				GUITileHighlight tilehighlight = new GUITileHighlight(this, v.scale(this.parentGrid.getGridScale()));
+				tilehighlight.getStyle().backgroundStyle.setTextureKey("moveOverlay");
+				highlightSet.addElement(tilehighlight);
 			}
 			this.parentLevel.getGUI().addGUISet(highlightSet);
 			
@@ -136,6 +157,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public void deselect(Player p) {
 		// Hide all the movement highlighting.
+		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
 	}
 	
 	public int getHealth() {
