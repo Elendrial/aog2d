@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
+import me.elendrial.aog2d.graphics.inGame.GUIAttackTileHighlight;
 import me.elendrial.aog2d.graphics.inGame.GUIMoveTileHighlight;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.levels.AoGLevel;
@@ -19,8 +20,9 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	// Things that may also be needed: Attack range. Movement modifiers outside of class
 	
-	private String name;
 	private Player player;
+	private int attacksLeft;
+	private double movementLeft;
 	
 	public void onLoad() {}
 	public void onUnload() {}
@@ -30,7 +32,6 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int health;
 	public int maxHealth;
 	
-	abstract public void onStartTurn();
 	abstract public void onMove(); // TODO: have this take in an int for how far.
 	abstract public void onAttack(int distance);
 	abstract public void onEndTurn();
@@ -39,7 +40,18 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	abstract public UnitClass getUnitClass();
 	abstract public double getMovementDistance();
 	abstract public boolean isSummonable();
-	abstract public int[] attackRange();
+	abstract public int[] attackRange(); // should start with lowest and end with highest
+	
+	public int getAttacksPerTurn() {return 1;}
+	
+	public void onSummon() {
+		onStartTurn();
+	}
+	
+	public void onStartTurn() {
+		attacksLeft = getAttacksPerTurn();
+		movementLeft = getMovementDistance();
+	}
 	
 	public Unit setPlayer(Player p) {
 		player = p;
@@ -51,9 +63,9 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public void select(Player p) { // TODO: Attack square highlighting and figuring out - Movement highlighting
-		if(p.equals(player)) { // Only the correct player can move the unit
+		if(p.equals(player) && attacksLeft > 0) { // Only the correct player can move the unit
 			
-			// I promise this is just Dijkstra
+			// I promise this is just Dijkstra, I think, maybe it's nearer breadth first?
 			// TODO: Rewrite this so it's not a mess (maybe look through Algs & Data Structs module notes?)
 			
 			HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
@@ -106,7 +118,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 							allowed = t.canPassThrough();
 						}
 						
-						if(movementCost.get(v) >= getMovementDistance()) allowed = false;
+						if(movementCost.get(v) >= this.movementLeft) allowed = false;
 						
 						if(allowed) {
 							foundNew = true;
@@ -150,6 +162,25 @@ public abstract class Unit extends GridEntity implements IUpdating {
 				highlightSet.addElement(tilehighlight);
 			}
 			
+			
+			// Very basic attack checking. TODO: Improve this to be more like AoG
+			Vector start = this.gridPosition.getLocation().translate(-attackRange()[attackRange().length-1], -attackRange()[attackRange().length-1]), temp;
+			for(int i = 0; i < attackRange()[attackRange().length-1]*2; i++) {
+				for(int j = 0; j < attackRange()[attackRange().length-1]*2; j++) {
+					temp = start.getLocation().translate(i,j);
+					Unit u = (Unit) entityGrid.getObjectAt(temp);
+					if(u != null) {
+						if(u.getPlayer() != player) {
+							for(int allowedDist : attackRange()) {
+								if(Math.round(u.gridPosition.distance(gridPosition)) == allowedDist) {
+									GUIAttackTileHighlight tilehighlight = new GUIAttackTileHighlight(this, temp);
+									highlightSet.addElement(tilehighlight);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -159,10 +190,14 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public void move(Vector v) {
-		System.out.println("moving object");
 		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
+		((AoGLevel) this.parentLevel).clickController.deselect(player);
 		this.setGridPosition(v);
 		onMove();
+	}
+	
+	public void attack(Vector v) {
+		// TODO
 	}
 	
 	public int getHealth() {
@@ -185,10 +220,6 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public void kill() {
 		// TODO: Unit death
-	}
-	
-	public String getUnitName() {
-		return name;
 	}
 	
 	// Type advantages will be defined in dedicated attacking code.

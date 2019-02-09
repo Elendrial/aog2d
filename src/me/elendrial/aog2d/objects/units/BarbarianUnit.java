@@ -2,13 +2,14 @@ package me.elendrial.aog2d.objects.units;
 
 public class BarbarianUnit extends Unit{
 
-	public static int[] attackRange = {1};
+	public int[] attackRange;
 	
 	public BarbarianUnit() {
 		super();
 		this.entityName = "barbarian";
 		this.maxHealth = 5;
 		this.health = 5;
+		this.attackRange = new int[]{1};
 	}
 	
 	@Override
@@ -28,6 +29,7 @@ public class BarbarianUnit extends Unit{
 
 	@Override
 	public void onStartTurn() {
+		super.onStartTurn();
 		// Increase capture of buildings.
 	}
 	

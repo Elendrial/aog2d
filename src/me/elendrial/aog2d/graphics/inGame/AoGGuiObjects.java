@@ -120,8 +120,8 @@ public class AoGGuiObjects {
 								u = unit.newInstance();
 								u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
 								u.setPlayer(p);
-								// TODO: Set the unit's player
 								LevelHandler.getCurrentLevel().addEntity(u);
+								u.onSummon();
 							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
 						}
 					};
