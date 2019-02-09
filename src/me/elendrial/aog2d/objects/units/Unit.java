@@ -18,7 +18,8 @@ import me.hii488.handlers.LevelHandler;
 
 public abstract class Unit extends GridEntity implements IUpdating {
 	
-	// Things that may also be needed: Attack range. Movement modifiers outside of class
+	// Things that may also be needed: Movement modifiers outside of class
+	// TODO: Add a graphic to display when a unit has run out of movement.
 	
 	private Player player;
 	private int attacksLeft;
@@ -158,7 +159,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			// TODO: Combine this with the loop above?
 			GUISet highlightSet = ((AoGLevel) parentLevel).tileOverlayGUISet;
 			for(Vector v : allowedLocations) {
-				GUIMoveTileHighlight tilehighlight = new GUIMoveTileHighlight(this, v);
+				GUIMoveTileHighlight tilehighlight = new GUIMoveTileHighlight(this, v, movementCost.get(v));
 				highlightSet.addElement(tilehighlight);
 			}
 			
@@ -189,15 +190,17 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
 	}
 	
-	public void move(Vector v) {
+	public void move(Vector v, double d) {
 		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
 		((AoGLevel) this.parentLevel).clickController.deselect(player);
 		this.setGridPosition(v);
+		this.movementLeft -= d;
 		onMove();
 	}
 	
 	public void attack(Vector v) {
 		// TODO
+		this.attacksLeft--;
 	}
 	
 	public int getHealth() {
