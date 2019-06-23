@@ -8,10 +8,14 @@ import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
 import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
+import me.elendrial.aog2d.objects.units.BarbarianUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.EngineSettings;
+import me.hii488.dataTypes.Vector;
 import me.hii488.gameObjects.levels.BaseLevel;
 import me.hii488.graphics.gui.GUISet;
 import me.hii488.handlers.InputHandler;
+import me.hii488.handlers.LevelHandler;
 
 public class AoGLevel extends BaseLevel {
 	
@@ -49,9 +53,43 @@ public class AoGLevel extends BaseLevel {
 		pt.capturedBy = p[0];
 		this.getTileGrid().setObjectAt(5, 6, pt);
 		
+		PortalTile pt2= new PortalTile();
+		pt2.capturedBy = p[1];
+		this.getTileGrid().setObjectAt(20, 20, pt2);
+		
+		BarbarianUnit u = new BarbarianUnit();
+		u.setGridPosition(8, 6);
+		u.setPlayer(p[1]);
+		addEntity(u);
+		u.onSummon();
+		
+		// End of temporary section
+		
 		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
 		
 		this.getGUI().addGUISet(AoGGuiObjects.summonSet);
+	}
+	
+	public void createNewUnit(Class<? extends Unit> unit, Vector gridPosition, Player p) {
+		boolean playerAllowed = false;
+		for(Player pl : players) {
+			if(p == pl) {
+				playerAllowed = true;
+				break;
+			}
+		}
+		
+		try {
+			Unit u = unit.newInstance();
+			u.setGridPosition(gridPosition);
+			u.setPlayer(p);
+			LevelHandler.getCurrentLevel().addEntity(u);
+			u.onSummon();
+		} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
+	}
+	
+	public void createNewUnit(Unit u, Vector gridPosition, Player p) {
+		createNewUnit(u.getClass(), gridPosition, p);
 	}
 	
 }

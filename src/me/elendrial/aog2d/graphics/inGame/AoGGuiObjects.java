@@ -26,8 +26,15 @@ public class AoGGuiObjects {
 	public static HashMap<String, GUIOption> godSummonOptions = new HashMap<String, GUIOption>();
 	public static HashMap<String, GUIOptionBox> unitSummonMenus = new HashMap<String, GUIOptionBox>();
 	
+	public static GUISet getStandardUI() {
+		GUISet standardUI = new GUISet();
+		
+		// Needs: Resource Amount, who's turn it is, time left (if applicable), end turn button
+		
+		return standardUI;
+	}
 	
-	//// GUI elements ////
+	//// GUI elements ////	
 	
 	public static GUIOptionBox getSummonGUI(Player p) {
 		if(godSummonOptionBox.containsKey(p)) return godSummonOptionBox.get(p);

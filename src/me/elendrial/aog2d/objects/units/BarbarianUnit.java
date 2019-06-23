@@ -1,5 +1,7 @@
 package me.elendrial.aog2d.objects.units;
 
+import me.elendrial.aog2d.gameSystems.players.Player;
+
 public class BarbarianUnit extends Unit{
 
 	public int[] attackRange;
@@ -28,8 +30,8 @@ public class BarbarianUnit extends Unit{
 	}
 
 	@Override
-	public void onStartTurn() {
-		super.onStartTurn();
+	public void onTurnStart(Player p) {
+		super.onTurnStart(p);
 		// Increase capture of buildings.
 	}
 	
@@ -42,9 +44,6 @@ public class BarbarianUnit extends Unit{
 
 	@Override
 	public void onAttack(int distance) {}
-
-	@Override
-	public void onEndTurn() {}
 
 	@Override
 	public int getCost() {

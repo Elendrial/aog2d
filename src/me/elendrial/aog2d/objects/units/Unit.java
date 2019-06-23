@@ -1,5 +1,7 @@
 package me.elendrial.aog2d.objects.units;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,7 +37,6 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	abstract public void onMove(); // TODO: have this take in an int for how far.
 	abstract public void onAttack(int distance);
-	abstract public void onEndTurn();
 	
 	abstract public int getCost();
 	abstract public UnitClass getUnitClass();
@@ -46,10 +47,11 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int getAttacksPerTurn() {return 1;}
 	
 	public void onSummon() {
-		onStartTurn();
+		onTurnStart(player);
 	}
 	
-	public void onStartTurn() {
+	@Override
+	public void onTurnStart(Player p) {
 		attacksLeft = getAttacksPerTurn();
 		movementLeft = getMovementDistance();
 	}
@@ -66,7 +68,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public void select(Player p) { // TODO: Attack square highlighting and figuring out - Movement highlighting
 		if(p.equals(player) && attacksLeft > 0) { // Only the correct player can move the unit
 			
-			// I promise this is just Dijkstra, I think, maybe it's nearer breadth first?
+			// I promise this is just Dijkstra, I think
 			// TODO: Rewrite this so it's not a mess (maybe look through Algs & Data Structs module notes?)
 			
 			HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
@@ -165,6 +167,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			
 			
 			// Very basic attack checking. TODO: Improve this to be more like AoG
+			// Idea on how to improve: On every new vector added to movement, check all units previously unattackable(ie: not in map). If any is in the correct range, add it & and the vector to move to to a map
 			Vector start = this.gridPosition.getLocation().translate(-attackRange()[attackRange().length-1], -attackRange()[attackRange().length-1]), temp;
 			for(int i = 0; i < attackRange()[attackRange().length-1]*2; i++) {
 				for(int j = 0; j < attackRange()[attackRange().length-1]*2; j++) {
@@ -228,6 +231,15 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	// Type advantages will be defined in dedicated attacking code.
 	public enum UnitClass{
 		SKIRMISH, WARRIOR, RANGER, MAGE, HELPER, FLYING, CREEPER, TITAN;
+	}
+	
+	@Override
+	public void render(Graphics g) {
+		super.render(g);
+		Color c= g.getColor();
+		g.setColor(getPlayer().color);
+		g.drawLine(getAbsPosition().getIX(), getAbsPosition().getIY() + getTextureHeight(), getAbsPosition().getIX() + getTextureWidth(), getAbsPosition().getIY() + getTextureHeight());
+		g.setColor(c);
 	}
 	
 }
