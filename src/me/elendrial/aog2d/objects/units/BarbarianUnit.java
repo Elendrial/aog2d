@@ -1,5 +1,6 @@
 package me.elendrial.aog2d.objects.units;
 
+import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.players.Player;
 
 public class BarbarianUnit extends Unit{
@@ -51,8 +52,8 @@ public class BarbarianUnit extends Unit{
 	}
 
 	@Override
-	public UnitClass getUnitClass() {
-		return UnitClass.SKIRMISH;
+	public UnitType getUnitType() {
+		return UnitType.SKIRMISH;
 	}
 
 	@Override

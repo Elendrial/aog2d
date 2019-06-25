@@ -2,6 +2,7 @@ package me.elendrial.aog2d;
 
 import java.awt.Color;
 
+import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
@@ -35,6 +36,8 @@ public class Initialisation implements IInitialiser{
 		registerEntities();
 		
 		alignUnits();
+		
+		UnitType.init();
 	}
 	
 	public void registerTiles() {

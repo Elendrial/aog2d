@@ -6,9 +6,8 @@ import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
-	// Defence Bonus
-	
 	public abstract double movementCost(Unit unit);
+	public float defenceBonus(Unit u) {return 0f;}
 	
 	public void onLoad() {}
 	public void onUnload() {}

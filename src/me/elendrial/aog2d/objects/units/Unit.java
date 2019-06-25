@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
 import me.elendrial.aog2d.graphics.inGame.GUIAttackTileHighlight;
@@ -37,9 +38,10 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	abstract public void onMove(); // TODO: have this take in an int for how far.
 	abstract public void onAttack(int distance);
+	public boolean onDeath() {return true;} // Returns whether the unit still dies
 	
 	abstract public int getCost();
-	abstract public UnitClass getUnitClass();
+	abstract public UnitType getUnitType();
 	abstract public double getMovementDistance();
 	abstract public boolean isSummonable();
 	abstract public int[] attackRange(); // should start with lowest and end with highest
@@ -169,8 +171,8 @@ public abstract class Unit extends GridEntity implements IUpdating {
 			// Very basic attack checking. TODO: Improve this to be more like AoG
 			// Idea on how to improve: On every new vector added to movement, check all units previously unattackable(ie: not in map). If any is in the correct range, add it & and the vector to move to to a map
 			Vector start = this.gridPosition.getLocation().translate(-attackRange()[attackRange().length-1], -attackRange()[attackRange().length-1]), temp;
-			for(int i = 0; i < attackRange()[attackRange().length-1]*2; i++) {
-				for(int j = 0; j < attackRange()[attackRange().length-1]*2; j++) {
+			for(int i = 0; i < attackRange()[attackRange().length-1]*2 + 1; i++) {
+				for(int j = 0; j < attackRange()[attackRange().length-1]*2 + 1; j++) {
 					temp = start.getLocation().translate(i,j);
 					Unit u = (Unit) entityGrid.getObjectAt(temp);
 					if(u != null) {
@@ -202,12 +204,24 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public void attack(Vector v) {
-		// TODO
 		this.attacksLeft--;
+		
+		Unit attacked = (Unit) parentGrid.getObjectAt(v);
+		attacked.damage(this.getAttack(attacked));
+		this.damage(attacked.getAttack(this));
+		
 	}
 	
 	public int getHealth() {
 		return health;
+	}
+	
+	public int getAttack(Unit attacked) {
+		float strength = this.getHealth();
+		strength *= this.getUnitType().getAttackModifier(attacked.getUnitType());
+		strength -= strength * ((AoGTile) LevelHandler.getCurrentLevel().getTileGrid().getObjectAt(attacked.gridPosition)).defenceBonus(attacked);
+		
+		return strength > 1 ? (int) strength : 1; // must do 1+ damage
 	}
 	
 	public boolean damage(int i) {
@@ -226,11 +240,11 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public void kill() {
 		// TODO: Unit death
-	}
-	
-	// Type advantages will be defined in dedicated attacking code.
-	public enum UnitClass{
-		SKIRMISH, WARRIOR, RANGER, MAGE, HELPER, FLYING, CREEPER, TITAN;
+		if(!this.onDeath()) return;
+		
+		// Place bones
+		// Give points maybe?
+		// Removed entity
 	}
 	
 	@Override

@@ -12,7 +12,7 @@ public class RoadTile extends AoGTile{
 	
 	@Override
 	public double movementCost(Unit unit) {
-		switch(unit.getUnitClass()) {
+		switch(unit.getUnitType()) {
 		case FLYING:
 			return 1;
 		case TITAN:
