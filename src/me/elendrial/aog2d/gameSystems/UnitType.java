@@ -15,6 +15,7 @@ public enum UnitType {
 		FLYING.setStrengths(new UnitType[] {SKIRMISH, WARRIOR, MAGE, CREEPER}, new float[] {0.9F, 0.9F, 0.9F, 0.9F});
 		CREEPER.setStrengths(new UnitType[] {}, new float[] {});
 		TITAN.setStrengths(new UnitType[] {SKIRMISH, WARRIOR, RANGER, MAGE, HELPER, FLYING, CREEPER, TITAN}, new float[] {0.9F, 0.9F, 0.9F, 0.9F, 0.9F, 0.9F, 0.9F, 0.9F});
+		// Technically TITAN vs TITAN is inaccurate: instead it's 0.9F for attacker, but 0.5F for defender. However this doesn't matter that much rn.
 	}
 	
 	public HashMap<UnitType, Float> strengths;

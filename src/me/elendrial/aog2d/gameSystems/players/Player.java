@@ -26,8 +26,15 @@ public class Player {
 		return 0;
 	}
 	
+	public boolean equals(Object o) {
+		if(o == null) return false;
+		if(o instanceof Player) return equals((Player) o);
+		return false;
+	}
+	
 	// Only equals on Color, to ensure Player does not change throughout a game and so can be used as a key to Maps etc.
 	public boolean equals(Player p) {
+		if(p == null) return false;
 		if(!color.equals(p.color)) return false;
 		return true;
 	}

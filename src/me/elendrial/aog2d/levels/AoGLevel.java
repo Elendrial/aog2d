@@ -79,13 +79,15 @@ public class AoGLevel extends BaseLevel {
 			}
 		}
 		
-		try {
-			Unit u = unit.newInstance();
-			u.setGridPosition(gridPosition);
-			u.setPlayer(p);
-			LevelHandler.getCurrentLevel().addEntity(u);
-			u.onSummon();
-		} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
+		if(playerAllowed) {
+			try {
+				Unit u = unit.newInstance();
+				u.setGridPosition(gridPosition);
+				u.setPlayer(p);
+				LevelHandler.getCurrentLevel().addEntity(u);
+				u.onSummon();
+			} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
+		}
 	}
 	
 	public void createNewUnit(Unit u, Vector gridPosition, Player p) {

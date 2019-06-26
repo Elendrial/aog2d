@@ -55,6 +55,7 @@ public class God {
 	
 	
 	public boolean equals(Object o) {
+		if(o == null) return false;
 		if(!(o instanceof God)) return false;
 		if(!((God) o).color.equals(color)) return false;
 		if(!((God) o).name.equals(name)) return false;

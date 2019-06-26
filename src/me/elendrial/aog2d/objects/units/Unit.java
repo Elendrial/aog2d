@@ -204,12 +204,13 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public void attack(Vector v) {
+		((AoGLevel) parentLevel).tileOverlayGUISet.empty();
+		((AoGLevel) this.parentLevel).clickController.deselect(player);
 		this.attacksLeft--;
 		
 		Unit attacked = (Unit) parentGrid.getObjectAt(v);
 		attacked.damage(this.getAttack(attacked));
-		this.damage(attacked.getAttack(this));
-		
+		if(attacked.getHealth() >= 1) this.damage(attacked.getAttack(this));
 	}
 	
 	public int getHealth() {
@@ -219,7 +220,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int getAttack(Unit attacked) {
 		float strength = this.getHealth();
 		strength *= this.getUnitType().getAttackModifier(attacked.getUnitType());
-		strength -= strength * ((AoGTile) LevelHandler.getCurrentLevel().getTileGrid().getObjectAt(attacked.gridPosition)).defenceBonus(attacked);
+		strength -= strength * attacked.getTile().defenceBonus(attacked);
 		
 		return strength > 1 ? (int) strength : 1; // must do 1+ damage
 	}
@@ -242,18 +243,25 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		// TODO: Unit death
 		if(!this.onDeath()) return;
 		
-		// Place bones
 		// Give points maybe?
-		// Removed entity
+		getTile().setContainsBones(true);
+		LevelHandler.getCurrentLevel().removeEntity(this);
 	}
 	
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
+		
+		///// Temporary way of showing which side a unit it on & health
 		Color c= g.getColor();
 		g.setColor(getPlayer().color);
-		g.drawLine(getAbsPosition().getIX(), getAbsPosition().getIY() + getTextureHeight(), getAbsPosition().getIX() + getTextureWidth(), getAbsPosition().getIY() + getTextureHeight());
+		g.drawLine(getAbsPosition().getIX(), getAbsPosition().getIY() + getTextureHeight(), getAbsPosition().getIX() + getTextureWidth() * this.getHealth()/10, getAbsPosition().getIY() + getTextureHeight());
+		g.drawString(this.getHealth() + "", getAbsPosition().getIX(), getAbsPosition().getIY());
 		g.setColor(c);
+	}
+	
+	public AoGTile getTile() {
+		return (AoGTile) LevelHandler.getCurrentLevel().getTileGrid().getObjectAt(gridPosition);
 	}
 	
 }
