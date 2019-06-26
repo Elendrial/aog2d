@@ -6,6 +6,8 @@ import me.hii488.gameObjects.tiles.BaseTile;
 
 public abstract class AoGTile extends BaseTile {
 	
+	private boolean containsBones;
+	
 	public abstract double movementCost(Unit unit);
 	public float defenceBonus(Unit u) {return 0f;}
 	
@@ -36,6 +38,14 @@ public abstract class AoGTile extends BaseTile {
 	@Override
 	public String getTextureLocation() {
 		return "textures/tiles/" + this.tileName + ".png";
+	}
+	
+	public boolean containsBones() {
+		return containsBones;
+	}
+	
+	public void setContainsBones(boolean containsBones) {
+		this.containsBones = containsBones;
 	}
 	
 }

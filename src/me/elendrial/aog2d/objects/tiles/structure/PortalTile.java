@@ -11,6 +11,9 @@ public class PortalTile extends StructureTile{
 	public PortalTile() {
 		this.canPassThrough = true;
 		this.tileName = "portal";
+		
+		this.captureTime = 10;
+		this.manaPerTurn = 50;
 	}
 	
 	public void onLoad() {
