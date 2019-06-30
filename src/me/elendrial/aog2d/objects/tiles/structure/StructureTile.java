@@ -2,6 +2,7 @@ package me.elendrial.aog2d.objects.tiles.structure;
 
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
+import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.units.BarbarianUnit;
 import me.elendrial.aog2d.objects.units.Unit;
@@ -15,6 +16,14 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 	protected int manaPerTurn;
 	public Player capturedBy;
 	public Player progressingCapturer;
+	
+	public StructureTile() {
+		super();
+	}
+	
+	public void onPlace() {
+		this.registerAsUpdating((AoGLevel) getParentGrid().getParentLevel());
+	}
 	
 	public void onTurnStart(Player playerTurn) {
 		boolean suppressed = false;			

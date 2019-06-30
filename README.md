@@ -8,12 +8,12 @@ An estimated 50% of the 'core' is done.
 ## TODO:
 ###### May not contain everything
 #### High priority (CORE):
-- Player turn systems			(semi done)
-- Alignment/god systems     	(semi done)
-- Basic resource system			(semi done * will affect summoning)
-- Basic combat (melee/ranged)
-- Building capture system		(started)
-- Get the engine working properly (mostly done)
+- Player turn systems				(semi done)
+- Alignment/god systems     		(mostly done)
+- Basic resource system				(semi done * will affect summoning)
+- Basic combat (melee/ranged)		(semi done)
+- Building capture system			(mostly done)
+- Get the engine working properly	(mostly done)
 
 #### Medium priority:
 - Placeholder art				(started)
@@ -38,14 +38,9 @@ An estimated 50% of the 'core' is done.
 
 
 ##### List of tiles left to include:
-- All Structures, ie:
-   - Village(high)
-   - Tower
-   - Temple
    
 - All Environment, ie:
    - Swamp
-   - Forest
    - Hills
    - Mountains
    - Bridge
@@ -56,4 +51,4 @@ An estimated 50% of the 'core' is done.
 ## Notes:
 - Structure tiles are ones which can be captured for points, environment are anything else. (ie: walls are environment)
 - A menu is still a 'level', just a highly specialised one comprising of only GUIs.
-- Maybe make a tile builder, so I don't end up with ~10 classes, each with only 5 lines of code?
+- Maybe make a tile builder, so I don't end up with ~10 classes, each with only 5 lines of code? (currently not doing this)

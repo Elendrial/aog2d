@@ -38,6 +38,10 @@ public class AoGLevel extends BaseLevel {
 		
 		InputHandler.addLateInputListener(clickController);
 		
+		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
+		
+		this.getGUI().addGUISet(AoGGuiObjects.summonSet);
+		
 		// Temporary, should be replaced with a proper map loader
 		
 		this.getTileGrid().setGridScale(EngineSettings.Texture.tileSize);
@@ -64,10 +68,6 @@ public class AoGLevel extends BaseLevel {
 		u.onSummon();
 		
 		// End of temporary section
-		
-		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
-		
-		this.getGUI().addGUISet(AoGGuiObjects.summonSet);
 	}
 	
 	public void createNewUnit(Class<? extends Unit> unit, Vector gridPosition, Player p) {

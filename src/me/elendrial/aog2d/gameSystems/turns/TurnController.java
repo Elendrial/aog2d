@@ -1,5 +1,7 @@
 package me.elendrial.aog2d.gameSystems.turns;
 
+import java.util.ArrayList;
+
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.levels.AoGLevel;
 
@@ -11,6 +13,7 @@ public class TurnController {
 	private Player[] players;
 	private int playerTurn;
 	private AoGLevel parentLevel;
+	private ArrayList<IUpdating> updating = new ArrayList<IUpdating>();
 	
 	public TurnController(Player[] players, AoGLevel level) {
 		this.players = players;
@@ -31,10 +34,25 @@ public class TurnController {
 	
 	private void endTurn() {
 		parentLevel.clickController.deselect(getCurrentPlayer());
+		for(IUpdating upd : updating) {
+			upd.onTurnEnd(players[playerTurn]);
+		}
 	}
 	
 	private void beginTurn() {
 		// Collect Mana, move to player's Chief Barbarian/first portal/etc
+		for(IUpdating upd : updating) {
+			upd.onTurnStart(players[playerTurn]);
+		}
+	}
+	
+	// Do not try to call these except through IUpdating.registerAsUpdating() and IUpdating.unregisterAsUpdating()
+	protected void registerIUpdating(IUpdating u) {
+		updating.add(u);
+	}
+	
+	protected void unregisterIUpdating(IUpdating u) {
+		updating.remove(u);
 	}
 	
 }
