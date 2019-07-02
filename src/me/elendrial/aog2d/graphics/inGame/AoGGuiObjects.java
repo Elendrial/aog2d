@@ -154,11 +154,12 @@ public class AoGGuiObjects {
 						public void onSelect() {
 							parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
 							Unit u;
+							Player player = ((AoGLevel) LevelHandler.getCurrentLevel()).turnController.getCurrentPlayer();
 							try {
 								u = unit.newInstance();
-								if(u.getCost() <= p.getMana()) {
+								if(u.getCost() <= player.getMana()) {
 									u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
-									u.setPlayer(p);
+									u.setPlayer(player);
 									LevelHandler.getCurrentLevel().addEntity(u);
 									u.onSummon();
 									p.addMana(-u.getCost());

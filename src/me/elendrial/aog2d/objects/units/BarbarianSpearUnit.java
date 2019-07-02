@@ -11,6 +11,10 @@ public class BarbarianSpearUnit extends BarbarianUnit {
 		
 	}
 	
+	public int getCost() {
+		return 125;
+	}
+	
 	@Override
 	public String getTextureLocation() {
 		return "textures/units/barbarianSpear.png";

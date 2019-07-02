@@ -29,12 +29,6 @@ public class BarbarianUnit extends Unit{
 	public int getHighestState() {
 		return 0;
 	}
-
-	@Override
-	public void onTurnStart(Player p) {
-		super.onTurnStart(p);
-		// Increase capture of buildings.
-	}
 	
 	public int getCaptureAmount() {
 		return health;

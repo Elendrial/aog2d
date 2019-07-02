@@ -50,6 +50,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public void onSummon() {
 		onTurnStart(player);
+		registerAsUpdating((AoGLevel) parentGrid.getParentLevel());
 	}
 	
 	@Override
