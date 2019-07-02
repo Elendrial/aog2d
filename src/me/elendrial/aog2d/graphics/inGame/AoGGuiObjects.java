@@ -6,12 +6,17 @@ import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
+import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.EngineSettings;
+import me.hii488.controllers.GameController;
 import me.hii488.dataTypes.Vector;
+import me.hii488.graphics.gui.GUIElement;
 import me.hii488.graphics.gui.GUISet;
+import me.hii488.graphics.gui.GUISet.Priority;
 import me.hii488.graphics.gui.premadeTypes.GUIOption;
 import me.hii488.graphics.gui.premadeTypes.GUIOptionBox;
+import me.hii488.graphics.gui.premadeTypes.GUIStandardBox;
 import me.hii488.graphics.gui.style.GUIStyle;
 import me.hii488.graphics.gui.style.GUIStyle.BackgroundStyle;
 import me.hii488.handlers.LevelHandler;
@@ -21,20 +26,42 @@ public class AoGGuiObjects {
 	
 	//// GUI sets and saved groups ////
 	
-	public static GUISet summonSet = new GUISet();
+	public static GUISet standardUI;
+	
+	public static GUISet summonSet = new GUISet().setPriority(Priority.MID);
 	public static HashMap<Player, GUIOptionBox> godSummonOptionBox = new HashMap<Player, GUIOptionBox>(); // TODO: Possibly remove this one, as the others will essentially save it anyway?
 	public static HashMap<String, GUIOption> godSummonOptions = new HashMap<String, GUIOption>();
 	public static HashMap<String, GUIOptionBox> unitSummonMenus = new HashMap<String, GUIOptionBox>();
 	
+	//// Standard GUI elements ////
+	
 	public static GUISet getStandardUI() {
-		GUISet standardUI = new GUISet();
+		if(standardUI != null) return standardUI;
+		standardUI = new GUISet().setPriority(Priority.HIGH);
 		
-		// Needs: Resource Amount, who's turn it is, time left (if applicable), end turn button
+		standardUI.addElement(getEndTurnButton());
+		standardUI.addElement(new GUITurnIndicator(AoGStyleGroup.getInstance().getDefault()).setPosition(new Vector(GameController.getWindow().width/2-100, 0)));
+		// Needs: Resource Amount, who's turn it is, time left (if applicable)
 		
 		return standardUI;
 	}
 	
-	//// GUI elements ////	
+	
+	private static GUIElement getEndTurnButton() {
+		return new GUIStandardBox(AoGStyleGroup.getInstance().getStyle("buttonStyle")) {
+			public boolean onClick(MouseEvent e){
+				((AoGLevel) LevelHandler.getCurrentLevel()).turnController.nextTurn();
+				return true;
+			}
+		}		.setText("END TURN")
+				.setPosition(new Vector(GameController.getWindow().width/2, 0))
+				.setDimensions(new Vector(100, 30))
+				.setElementName("EndTurnButton");
+	}
+	
+	
+	
+	//// GUI Summon elements ////	
 	
 	public static GUIOptionBox getSummonGUI(Player p) {
 		if(godSummonOptionBox.containsKey(p)) return godSummonOptionBox.get(p);
@@ -75,7 +102,7 @@ public class AoGGuiObjects {
 		if(godSummonOptions.containsKey(g.name)) return godSummonOptions.get(g.name);
 		
 		GUIStyle defaultStyle = AoGStyleGroup.getInstance().getStyle("summonMenu");
-		GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), g.name + "_icon", 0)); // TODO: Improve these icons
+		GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), defaultStyle.backgroundStyle.getBorderColor(), g.name + "_icon", 0)); // TODO: Improve these icons
 		
 		if(!unitSummonMenus.containsKey(g.name + "_units")) unitSummonMenus.put(g.name + "_units", generateUnitOptionList(p, g)); // Shouldn't really be needed considering we're already saving the whole thing... may remove unitSummonMenus
 		
@@ -117,7 +144,7 @@ public class AoGGuiObjects {
 			try {
 				if(unit.newInstance().isSummonable()) {
 					// TODO: Change these to display cost & stats etc - maybe on hover
-					GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), unit.newInstance().getTextureKey(), 0));
+					GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), defaultStyle.backgroundStyle.getBorderColor(), unit.newInstance().getTextureKey(), 0));
 				
 					GUIOption o = new GUIOption(s) {
 						public void onSelect() {
@@ -133,7 +160,7 @@ public class AoGGuiObjects {
 						}
 					};
 					
-
+					
 					o.addTag("summonMenu");
 					o.addTag("unitOptions");
 					unitMenu.addOption(o);

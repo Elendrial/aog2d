@@ -49,6 +49,7 @@ public class TurnController {
 	// Do not try to call these except through IUpdating.registerAsUpdating() and IUpdating.unregisterAsUpdating()
 	protected void registerIUpdating(IUpdating u) {
 		updating.add(u);
+		u.turnInit(getCurrentPlayer());
 	}
 	
 	protected void unregisterIUpdating(IUpdating u) {

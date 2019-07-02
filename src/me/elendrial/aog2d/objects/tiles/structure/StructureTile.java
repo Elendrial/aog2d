@@ -1,5 +1,8 @@
 package me.elendrial.aog2d.objects.tiles.structure;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
 import me.elendrial.aog2d.levels.AoGLevel;
@@ -79,6 +82,16 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 			capturedBy.mana += (int) ((float) manaPerTurn * (suppressed ? 0.75f : 1f));
 		}
 		
+	}
+	
+	public void render(Graphics g) {
+		super.render(g);
+		
+		///// Temporary way of showing which side the structure is on
+		Color c = g.getColor();
+		g.setColor(capturedBy.color);
+		g.drawLine(getPosition().getIX(), getPosition().getIY() + getTextureHeight()-1, getPosition().getIX() + getTextureWidth(), getPosition().getIY() + getTextureHeight()-1);
+		g.setColor(c);
 	}
 
 }

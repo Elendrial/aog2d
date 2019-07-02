@@ -8,6 +8,7 @@ public interface IUpdating {
 	
 	public default void onTurnStart(Player playerTurn) {}
 	public default void onTurnEnd(Player playerTurn) {}
+	public default void turnInit(Player playerTurn) {}
 	
 	public default void registerAsUpdating() {
 		registerAsUpdating((AoGLevel) LevelHandler.getCurrentLevel());

@@ -23,6 +23,7 @@ public class AoGLevel extends BaseLevel {
 	public ClickController clickController;
 	public Player[] players;
 	public GUISet tileOverlayGUISet;
+	private boolean initialised = false;
 	
 	// TODO: Probably separate this out into 'load map', 'load players', 'start game' phases.
 	public AoGLevel(Player[] p) {
@@ -34,13 +35,10 @@ public class AoGLevel extends BaseLevel {
 		clickController = new ClickController(this);
 		tileOverlayGUISet = new GUISet();
 		
-		this.getGUI().addGUISet(tileOverlayGUISet);
 		
 		InputHandler.addLateInputListener(clickController);
 		
 		this.getEntityGrid().autoSetup(EngineSettings.Texture.tileSize);
-		
-		this.getGUI().addGUISet(AoGGuiObjects.summonSet);
 		
 		// Temporary, should be replaced with a proper map loader
 		
@@ -68,6 +66,18 @@ public class AoGLevel extends BaseLevel {
 		u.onSummon();
 		
 		// End of temporary section
+	}
+	
+	public void onLoad() {
+		super.onLoad();
+		
+		if(!initialised) {
+			AoGGuiObjects.getStandardUI();
+			this.getGUI().addGUISet(AoGGuiObjects.standardUI);
+			this.getGUI().addGUISet(AoGGuiObjects.summonSet);
+			this.getGUI().addGUISet(tileOverlayGUISet);
+			initialised = true;
+		}
 	}
 	
 	public void createNewUnit(Class<? extends Unit> unit, Vector gridPosition, Player p) {
