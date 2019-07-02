@@ -79,10 +79,12 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 		
 		// Mana gain
 		if(capturedBy != null && capturedBy.equals(playerTurn)) {
-			capturedBy.mana += (int) ((float) manaPerTurn * (suppressed ? 0.75f : 1f));
+			capturedBy.addMana((int) ((float) manaPerTurn * (suppressed ? 0.75f : 1f)));
 		}
 		
 	}
+	
+	public void turnInit(Player p) {}
 	
 	public void render(Graphics g) {
 		super.render(g);

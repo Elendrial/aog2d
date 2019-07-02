@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.gods.God;
+import me.elendrial.aog2d.levels.AoGLevel;
+import me.hii488.handlers.LevelHandler;
 
 public class Player {
 	
 	public HashMap<God, Integer> alignmentLevel = new HashMap<God, Integer>();
-	public int mana;
-	public int victoryPoints;
+	private int mana;
+	private int victoryPoints;
 	public final Color color;
 	
 	public Player(Color c) {
@@ -24,6 +26,31 @@ public class Player {
 	public int getAlignmentLevel(String s) {
 		for(God g : alignmentLevel.keySet()) if(g.name.equals(s)) return alignmentLevel.get(g);
 		return 0;
+	}
+	
+	public void addMana(int m) {
+		setMana(getMana() + m);
+	}
+	
+	public int getMana() {
+		return mana;
+	}
+
+	public void setMana(int mana) {
+		this.mana = mana;
+		if(LevelHandler.getCurrentLevel() != null) ((AoGLevel) LevelHandler.getCurrentLevel()).turnController.playerUpdate();
+	}
+
+	public int getVictoryPoints() {
+		return victoryPoints;
+	}
+
+	public void setVictoryPoints(int victoryPoints) {
+		this.victoryPoints = victoryPoints;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 	
 	public boolean equals(Object o) {

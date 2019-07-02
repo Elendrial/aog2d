@@ -26,8 +26,8 @@ public class StandardPlayerBuilder implements PlayerBuilder {
 	public Player build() {
 		Player p = new Player(color);
 		
-		p.mana = 100;
-		p.victoryPoints = 0;
+		p.setMana(100);
+		p.setVictoryPoints(0);
 		p.alignmentLevel.put(God.NEUTRAL, 1);
 		
 		for(God s : playerGods) p.alignmentLevel.put(s, 0);

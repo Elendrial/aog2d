@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.levels.AoGLevel;
 
+// Alternatively: PlayerController.
 public class TurnController {
 	
 	// This is essentially the TickController, but rather than running on it's own and running continuously, it just forwards events to other parts of the game.
@@ -30,6 +31,11 @@ public class TurnController {
 		playerTurn ++;
 		playerTurn %= players.length;
 		beginTurn();
+	}
+	
+	public void playerUpdate() {
+		for(IUpdating upd : updating) 
+			upd.onPlayerUpdate(getCurrentPlayer());
 	}
 	
 	private void endTurn() {

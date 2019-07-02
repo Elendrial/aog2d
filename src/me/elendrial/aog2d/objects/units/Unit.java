@@ -36,7 +36,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int health;
 	public int maxHealth;
 	
-	abstract public void onMove(); // TODO: have this take in an int for how far.
+	abstract public void onMove(); // TODO: Maybe have this take in an int for how far.
 	abstract public void onAttack(int distance);
 	public boolean onDeath() {return true;} // Returns whether the unit still dies
 	
@@ -210,6 +210,8 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		
 		Unit attacked = (Unit) parentGrid.getObjectAt(v);
 		attacked.damage(this.getAttack(attacked));
+		
+		// TODO: Change this so opponent can only attack back if in range.
 		if(attacked.getHealth() >= 1) this.damage(attacked.getAttack(this));
 	}
 	

@@ -40,8 +40,12 @@ public class AoGGuiObjects {
 		standardUI = new GUISet().setPriority(Priority.HIGH);
 		
 		standardUI.addElement(getEndTurnButton());
-		standardUI.addElement(new GUITurnIndicator(AoGStyleGroup.getInstance().getDefault()).setPosition(new Vector(GameController.getWindow().width/2-100, 0)));
-		// Needs: Resource Amount, who's turn it is, time left (if applicable)
+		
+		// Something odd can happen with the styles here. Gotta a) look into that and b) be careful if/when this is changed.
+		standardUI.addElement(new GUITurnIndicator(AoGStyleGroup.getInstance().getDefault()).setPosition(new Vector(GameController.getWindow().width/2-250, 0)));
+		standardUI.addElement(new GUIManaIndicator(AoGStyleGroup.getInstance().getDefault()).setPosition(new Vector(GameController.getWindow().width/2-125, 0)));
+		
+		// Needs: time left (if applicable)
 		
 		return standardUI;
 	}
@@ -53,10 +57,10 @@ public class AoGGuiObjects {
 				((AoGLevel) LevelHandler.getCurrentLevel()).turnController.nextTurn();
 				return true;
 			}
-		}		.setText("END TURN")
-				.setPosition(new Vector(GameController.getWindow().width/2, 0))
-				.setDimensions(new Vector(100, 30))
-				.setElementName("EndTurnButton");
+		}.setText("END TURN")
+		.setPosition(new Vector(GameController.getWindow().width/2, 0))
+		.setDimensions(new Vector(100, 30))
+		.setElementName("EndTurnButton");
 	}
 	
 	
@@ -145,17 +149,20 @@ public class AoGGuiObjects {
 				if(unit.newInstance().isSummonable()) {
 					// TODO: Change these to display cost & stats etc - maybe on hover
 					GUIStyle s = new GUIStyle(defaultStyle.metaStyle, defaultStyle.textStyle, new BackgroundStyle(defaultStyle.backgroundStyle.getBackgroundColor(), defaultStyle.backgroundStyle.getBorderColor(), unit.newInstance().getTextureKey(), 0));
-				
+					
 					GUIOption o = new GUIOption(s) {
 						public void onSelect() {
 							parentBox.getParentGuiSet().hideAllWithTag("summonMenu");
 							Unit u;
 							try {
 								u = unit.newInstance();
-								u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
-								u.setPlayer(p);
-								LevelHandler.getCurrentLevel().addEntity(u);
-								u.onSummon();
+								if(u.getCost() <= p.getMana()) {
+									u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
+									u.setPlayer(p);
+									LevelHandler.getCurrentLevel().addEntity(u);
+									u.onSummon();
+									p.addMana(-u.getCost());
+								}
 							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
 						}
 					};
