@@ -162,7 +162,7 @@ public class AoGGuiObjects {
 									u.setPlayer(player);
 									LevelHandler.getCurrentLevel().addEntity(u);
 									u.onSummon();
-									p.addMana(-u.getCost());
+									player.addMana(-u.getCost());
 								}
 							} catch (InstantiationException | IllegalAccessException e) {e.printStackTrace();}
 						}
