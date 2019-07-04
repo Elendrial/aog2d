@@ -25,7 +25,7 @@ public abstract class AoGTile extends BaseTile {
 		return 0;
 	}
 
-	@Override
+	@Override // NB: this is # of states, starting from 0. IE: _NOT LIKE SIZE()_
 	public int getHighestState() {
 		return 0;
 	}

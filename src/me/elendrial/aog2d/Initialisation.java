@@ -7,13 +7,22 @@ import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
 import me.elendrial.aog2d.levels.AoGLevel;
+import me.elendrial.aog2d.objects.tiles.environment.ForestTile;
+import me.elendrial.aog2d.objects.tiles.environment.MountainTile;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
 import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
+import me.elendrial.aog2d.objects.tiles.environment.RiverTile;
 import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
+import me.elendrial.aog2d.objects.tiles.environment.SeaTile;
+import me.elendrial.aog2d.objects.tiles.environment.SwampTile;
+import me.elendrial.aog2d.objects.tiles.environment.WallTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
-import me.elendrial.aog2d.objects.units.BarbarianChieftainUnit;
-import me.elendrial.aog2d.objects.units.BarbarianSpearUnit;
-import me.elendrial.aog2d.objects.units.BarbarianUnit;
+import me.elendrial.aog2d.objects.tiles.structure.TempleTile;
+import me.elendrial.aog2d.objects.tiles.structure.TowerTile;
+import me.elendrial.aog2d.objects.tiles.structure.VillageTile;
+import me.elendrial.aog2d.objects.units.neutral.BarbarianChieftainUnit;
+import me.elendrial.aog2d.objects.units.neutral.BarbarianSpearUnit;
+import me.elendrial.aog2d.objects.units.neutral.BarbarianUnit;
 import me.hii488.controllers.InitialisationController;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
@@ -41,13 +50,22 @@ public class Initialisation implements IInitialiser{
 	}
 	
 	public void registerTiles() {
-		// 'Standard' Tiles
+		// 'Environment' Tiles
 		TileRegistry.registerTile(new OutsideWallTile());
 		TileRegistry.registerTile(new OpenTile());
 		TileRegistry.registerTile(new RoadTile());
+		TileRegistry.registerTile(new SwampTile());
+		TileRegistry.registerTile(new RiverTile());
+		TileRegistry.registerTile(new SeaTile());
+		TileRegistry.registerTile(new ForestTile());
+		TileRegistry.registerTile(new MountainTile());
+		TileRegistry.registerTile(new WallTile());
 		
-		// 'Action Tiles'
+		// 'Structure' Tiles
 		TileRegistry.registerTile(new PortalTile());
+		TileRegistry.registerTile(new VillageTile());
+		TileRegistry.registerTile(new TowerTile());
+		TileRegistry.registerTile(new TempleTile());
 	}
 	
 	public void registerEntities() {

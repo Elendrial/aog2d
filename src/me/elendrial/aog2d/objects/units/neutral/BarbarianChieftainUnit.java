@@ -1,4 +1,4 @@
-package me.elendrial.aog2d.objects.units;
+package me.elendrial.aog2d.objects.units.neutral;
 
 public class BarbarianChieftainUnit extends BarbarianUnit {
 	

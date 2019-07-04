@@ -7,8 +7,8 @@ import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
 import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
-import me.elendrial.aog2d.objects.units.BarbarianUnit;
 import me.elendrial.aog2d.objects.units.Unit;
+import me.elendrial.aog2d.objects.units.neutral.BarbarianUnit;
 import me.hii488.gameObjects.entities.GridEntity;
 import me.hii488.handlers.LevelHandler;
 
@@ -90,10 +90,12 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 		super.render(g);
 		
 		///// Temporary way of showing which side the structure is on
-		Color c = g.getColor();
-		g.setColor(capturedBy.color);
-		g.drawLine(getPosition().getIX(), getPosition().getIY() + getTextureHeight()-1, getPosition().getIX() + getTextureWidth(), getPosition().getIY() + getTextureHeight()-1);
-		g.setColor(c);
+		if(capturedBy != null) {
+			Color c = g.getColor();
+			g.setColor(capturedBy.color);
+			g.drawLine(getPosition().getIX(), getPosition().getIY() + getTextureHeight()-1, getPosition().getIX() + getTextureWidth(), getPosition().getIY() + getTextureHeight()-1);
+			g.setColor(c);
+		}
 	}
 
 }

@@ -68,6 +68,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		return player;
 	}
 	
+	// TODO: If setting movement cost set to 1000000 doesn't stop moving through, add a "canPass(Unit u)" method to tiles - NB: not UnitType so that specific special units can pass
 	public void select(Player p) { // TODO: Attack square highlighting and figuring out - Movement highlighting
 		if(p.equals(player) && attacksLeft > 0) { // Only the correct player can move the unit
 			
