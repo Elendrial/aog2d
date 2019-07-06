@@ -16,21 +16,6 @@ public class BarbarianUnit extends Unit{
 		this.attackRange = new int[]{1};
 	}
 	
-	@Override
-	public String getTextureLocation() {
-		return "textures/units/barbarian.png";
-	}
-
-	@Override
-	public int getTextureState() {
-		return 0;
-	}
-
-	@Override
-	public int getHighestState() {
-		return 0;
-	}
-	
 	public int getCaptureAmount() {
 		return health;
 	}
@@ -58,12 +43,17 @@ public class BarbarianUnit extends Unit{
 
 	@Override
 	public double getMovementDistance() {
-		return 5; // TODO: Set this number properly
+		return 6; // TODO: Check whether this lines up correctly with the different movement code
 	}
 
 	@Override
 	public int[] attackRange() {
 		return attackRange;
+	}
+
+	@Override
+	public boolean isEligible(Player p) {
+		return true;
 	}
 
 }

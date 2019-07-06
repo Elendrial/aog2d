@@ -4,6 +4,8 @@ import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.units.Unit;
 
 public class WallTile extends AoGTile {
+	
+	// TODO: Wall end textures
 
 	// L->R, U->D, L->U, U->R, L->D, D->R
 	public int direction = 0;
@@ -38,8 +40,9 @@ public class WallTile extends AoGTile {
 		return direction;
 	}
 	
-	public void setDirection(int d) {
+	public WallTile setDirection(int d) {
 		direction = d;
+		return this;
 	}
 	
 }

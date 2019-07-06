@@ -12,6 +12,7 @@ import me.elendrial.aog2d.objects.tiles.environment.RiverTile;
 import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
 import me.elendrial.aog2d.objects.tiles.environment.SeaTile;
 import me.elendrial.aog2d.objects.tiles.environment.SwampTile;
+import me.elendrial.aog2d.objects.tiles.environment.WallTile;
 import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
 import me.elendrial.aog2d.objects.tiles.structure.TempleTile;
 import me.elendrial.aog2d.objects.tiles.structure.TowerTile;
@@ -65,6 +66,7 @@ public class AoGLevel extends BaseLevel {
 		pt2.capturedBy = p[1];
 		this.getTileGrid().setObjectAt(20, 20, pt2);
 		
+		// Testing every tile type so far unused.
 		this.getTileGrid().setObjectAt(10, 7, new RiverTile());
 		this.getTileGrid().setObjectAt(11, 7, new SeaTile());
 		this.getTileGrid().setObjectAt(9, 9, new ForestTile());
@@ -74,6 +76,17 @@ public class AoGLevel extends BaseLevel {
 		this.getTileGrid().setObjectAt(3, 7, new VillageTile());
 		this.getTileGrid().setObjectAt(14, 3, new TempleTile());
 		this.getTileGrid().setObjectAt(5, 17, new TowerTile());
+		
+
+		// Walls
+		this.getTileGrid().setObjectAt(15, 18, new WallTile().setDirection(0)); // Horizontal
+		this.getTileGrid().setObjectAt(16, 18, new WallTile().setDirection(4)); // L->D
+		this.getTileGrid().setObjectAt(16, 19, new WallTile().setDirection(1)); // Vertical
+		this.getTileGrid().setObjectAt(16, 20, new WallTile().setDirection(2)); // L->U
+		this.getTileGrid().setObjectAt(15, 20, new WallTile().setDirection(5)); // R->D
+		this.getTileGrid().setObjectAt(15, 21, new WallTile().setDirection(3)); // U->R
+		
+		
 		
 		BarbarianUnit u = new BarbarianUnit();
 		u.setGridPosition(8, 6);

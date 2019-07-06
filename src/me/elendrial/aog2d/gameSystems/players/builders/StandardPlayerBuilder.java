@@ -28,7 +28,7 @@ public class StandardPlayerBuilder implements PlayerBuilder {
 		
 		p.setMana(100);
 		p.setVictoryPoints(0);
-		p.alignmentLevel.put(God.NEUTRAL, 1);
+		p.alignmentLevel.put(God.NEUTRAL, 0); //TODO: Check whether these should start at 1 or 0.
 		
 		for(God s : playerGods) p.alignmentLevel.put(s, 0);
 		

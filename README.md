@@ -21,6 +21,7 @@ An estimated 90% of the 'core' is done.
 - Complex unit movement systems (movement types/restrictions)	(started - done as new tiles are added)
 - Complex combat - attack advantage/disadvantage				(mostly done)
 - Complex combat #2 - tiles blocking ranged attacks
+- Complex unit subtypes - eg: amphibious, air intercepting
 - Some simple special abilities
 
 #### Low priority:

@@ -23,8 +23,9 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	// Things that may also be needed: Movement modifiers outside of class
 	// TODO: Add a graphic to display when a unit has run out of movement.
+	// TODO: onSpecialAction()
 	
-	private Player player;
+	protected Player player;
 	private int attacksLeft;
 	private double movementLeft;
 	
@@ -35,12 +36,15 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public int health;
 	public int maxHealth;
+	public boolean poisoned = false;
+	protected int buff = 0;
 	
-	abstract public void onMove(); // TODO: Maybe have this take in an int for how far.
+	abstract public void onMove(); // TODO: Maybe have this take in start point and end point?
 	abstract public void onAttack(int distance);
 	public boolean onDeath() {return true;} // Returns whether the unit still dies
 	
 	abstract public int getCost();
+	abstract public boolean isEligible(Player p);
 	abstract public UnitType getUnitType();
 	abstract public double getMovementDistance();
 	abstract public boolean isSummonable();
@@ -57,6 +61,14 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public void onTurnStart(Player p) {
 		attacksLeft = getAttacksPerTurn();
 		movementLeft = getMovementDistance();
+		
+		if(poisoned) {
+			// TODO: Poison damage
+		}
+		
+		if(buff > 0) {
+			damage(1);
+		}
 	}
 	
 	public Unit setPlayer(Player p) {
@@ -69,6 +81,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	// TODO: If setting movement cost set to 1000000 doesn't stop moving through, add a "canPass(Unit u)" method to tiles - NB: not UnitType so that specific special units can pass
+	// TODO: Split this up or condense it.
 	public void select(Player p) { // TODO: Attack square highlighting and figuring out - Movement highlighting
 		if(p.equals(player) && attacksLeft > 0) { // Only the correct player can move the unit
 			
@@ -181,8 +194,10 @@ public abstract class Unit extends GridEntity implements IUpdating {
 						if(u.getPlayer() != player) {
 							for(int allowedDist : attackRange()) {
 								if(Math.round(u.gridPosition.distance(gridPosition)) == allowedDist) {
-									GUIAttackTileHighlight tilehighlight = new GUIAttackTileHighlight(this, temp);
-									highlightSet.addElement(tilehighlight);
+									if(canAttackUnit(u)) {
+										GUIAttackTileHighlight tilehighlight = new GUIAttackTileHighlight(this, temp);
+										highlightSet.addElement(tilehighlight);
+									}
 								}
 							}
 						}
@@ -190,6 +205,11 @@ public abstract class Unit extends GridEntity implements IUpdating {
 				}
 			}
 		}
+	}
+	
+	// Here entirely to be overwritten
+	public boolean canAttackUnit(Unit u) {
+		return true;
 	}
 	
 	public void deselect(Player p) {
@@ -217,8 +237,16 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		if(attacked.getHealth() >= 1) this.damage(attacked.getAttack(this));
 	}
 	
+	public void buff(int i) {
+		buff += i;
+	}
+	
 	public int getHealth() {
-		return health;
+		return health + buff;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 	
 	public int getAttack(Unit attacked) {
@@ -230,7 +258,14 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public boolean damage(int i) {
-		health -= i;
+		if(buff > 0) { buff -= i;
+			if(buff < 0) {
+				health += buff;
+				buff = 0;
+			}
+		}
+		else health -= i;
+		
 		if(health <= 0) {
 			this.kill();
 			return true;
@@ -240,7 +275,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	public void heal(int i) {
 		health += i;
-		if(health > maxHealth) health = maxHealth;
+		if(health > maxHealth) health = maxHealth; // TODO: Check whether units can go over their max health
 	}
 	
 	public void kill() {
@@ -249,7 +284,7 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		
 		// Give points maybe?
 		getTile().setContainsBones(true);
-		LevelHandler.getCurrentLevel().removeEntity(this);
+		this.destroy();
 	}
 	
 	@Override
@@ -265,7 +300,23 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	}
 	
 	public AoGTile getTile() {
-		return (AoGTile) LevelHandler.getCurrentLevel().getTileGrid().getObjectAt(gridPosition);
+		return (AoGTile) getParentLevel().getTileGrid().getObjectAt(gridPosition);
+	}
+	
+
+	@Override
+	public int getTextureState() {
+		return 0;
+	}
+
+	@Override
+	public int getHighestState() {
+		return 0;
+	}
+	
+	@Override
+	public String getTextureLocation() {
+		return "textures/units/" + this.entityName + ".png";
 	}
 	
 }

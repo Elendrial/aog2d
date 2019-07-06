@@ -1,5 +1,8 @@
 package me.elendrial.aog2d.objects.units.neutral;
 
+import me.elendrial.aog2d.gameSystems.gods.God;
+import me.elendrial.aog2d.gameSystems.players.Player;
+
 public class BarbarianSpearUnit extends BarbarianUnit {
 	
 	public BarbarianSpearUnit() {
@@ -18,6 +21,11 @@ public class BarbarianSpearUnit extends BarbarianUnit {
 	@Override
 	public String getTextureLocation() {
 		return "textures/units/barbarianSpear.png";
+	}
+	
+	@Override
+	public boolean isEligible(Player p) {
+		return p.getAlignmentLevel(God.NEUTRAL) >= 3;
 	}
 	
 }
