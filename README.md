@@ -23,6 +23,7 @@ An estimated 90% of the 'core' is done.
 - Complex combat #2 - tiles blocking ranged attacks
 - Complex unit subtypes - eg: amphibious, air intercepting
 - Some simple special abilities
+- KBD and allowing only one of them to be summoned.
 
 #### Low priority:
 - Complex special abilities

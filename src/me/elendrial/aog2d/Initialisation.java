@@ -7,22 +7,15 @@ import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
 import me.elendrial.aog2d.levels.AoGLevel;
-import me.elendrial.aog2d.objects.tiles.environment.ForestTile;
-import me.elendrial.aog2d.objects.tiles.environment.MountainTile;
-import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
-import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
-import me.elendrial.aog2d.objects.tiles.environment.RiverTile;
-import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
-import me.elendrial.aog2d.objects.tiles.environment.SeaTile;
-import me.elendrial.aog2d.objects.tiles.environment.SwampTile;
-import me.elendrial.aog2d.objects.tiles.environment.WallTile;
-import me.elendrial.aog2d.objects.tiles.structure.PortalTile;
-import me.elendrial.aog2d.objects.tiles.structure.TempleTile;
-import me.elendrial.aog2d.objects.tiles.structure.TowerTile;
-import me.elendrial.aog2d.objects.tiles.structure.VillageTile;
-import me.elendrial.aog2d.objects.units.neutral.BarbarianChieftainUnit;
-import me.elendrial.aog2d.objects.units.neutral.BarbarianSpearUnit;
-import me.elendrial.aog2d.objects.units.neutral.BarbarianUnit;
+
+import me.elendrial.aog2d.objects.tiles.environment.*;
+import me.elendrial.aog2d.objects.tiles.structure.*;
+
+import me.elendrial.aog2d.objects.units.guthix.*;
+import me.elendrial.aog2d.objects.units.neutral.*;
+import me.elendrial.aog2d.objects.units.saradomin.*;
+import me.elendrial.aog2d.objects.units.zamorak.*;
+
 import me.hii488.controllers.InitialisationController;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
@@ -76,9 +69,55 @@ public class Initialisation implements IInitialiser{
 	
 	public void alignUnits() {
 		// Setup God/Unit affiliations
+		
+		// Neutral:
 		God.NEUTRAL.addUnit(BarbarianUnit.class);
 		God.NEUTRAL.addUnit(BarbarianChieftainUnit.class);
 		God.NEUTRAL.addUnit(BarbarianSpearUnit.class);
+		God.NEUTRAL.addUnit(GorillaUnit.class);
+		God.NEUTRAL.addUnit(AviansieUnit.class);
+		God.NEUTRAL.addUnit(DagannothUnit.class);
+		God.NEUTRAL.addUnit(PortalMageUnit.class);
+		God.NEUTRAL.addUnit(TzhaarKetUnit.class);
+		
+		// Saradomin:
+		God.SARADOMIN.addUnit(CentaurUnit.class);
+		God.SARADOMIN.addUnit(IcyeneUnit.class);
+		God.SARADOMIN.addUnit(LionUnit.class);
+		God.SARADOMIN.addUnit(MonkUnit.class);
+		God.SARADOMIN.addUnit(PaladinUnit.class);
+		God.SARADOMIN.addUnit(PriestUnit.class);
+		God.SARADOMIN.addUnit(SaradominMageUnit.class);
+		God.SARADOMIN.addUnit(SaradominRangerUnit.class);
+		God.SARADOMIN.addUnit(UnicornUnit.class);
+		God.SARADOMIN.addUnit(WhiteKnightUnit.class);
+		
+		// Zamorak:
+		God.ZAMORAK.addUnit(BlackKnightUnit.class);
+		God.ZAMORAK.addUnit(GargoyleUnit.class);
+		God.ZAMORAK.addUnit(GreaterDemonUnit.class);
+		God.ZAMORAK.addUnit(HellhoundUnit.class);
+		God.ZAMORAK.addUnit(NecromancerUnit.class);
+		God.ZAMORAK.addUnit(PyrelordUnit.class);
+		God.ZAMORAK.addUnit(SeaSlugUnit.class);
+		God.ZAMORAK.addUnit(SkeletonUnit.class);
+		God.ZAMORAK.addUnit(WerewolfUnit.class);
+		God.ZAMORAK.addUnit(ZamorakMageUnit.class);
+		God.ZAMORAK.addUnit(ZamorakRangerUnit.class);
+		
+		// Guthix:
+		God.GUTHIX.addUnit(BattleTortoiseUnit.class);
+		God.GUTHIX.addUnit(BlackGuardDwarfUnit.class);
+		God.GUTHIX.addUnit(DruidUnit.class);
+		God.GUTHIX.addUnit(DwarfCannonCannonUnit.class);
+		God.GUTHIX.addUnit(DwarfCannonUnit.class);
+		God.GUTHIX.addUnit(EntUnit.class);
+		God.GUTHIX.addUnit(GnomecopterUnit.class);
+		God.GUTHIX.addUnit(JadeVineUnit.class);
+		God.GUTHIX.addUnit(MossGiantUnit.class);
+		God.GUTHIX.addUnit(MountedTerrorbirdUnit.class);
+		God.GUTHIX.addUnit(VoidKnightUnit.class);
+		God.GUTHIX.addUnit(WolfUnit.class);
 	}
 
 	@Override

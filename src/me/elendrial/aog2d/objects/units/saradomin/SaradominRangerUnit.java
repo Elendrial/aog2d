@@ -4,9 +4,9 @@ import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.objects.units.SimpleUnit;
 
-public class SaradominRanger extends SimpleUnit{
+public class SaradominRangerUnit extends SimpleUnit{
 
-	public SaradominRanger() {
+	public SaradominRangerUnit() {
 		super();
 		this.entityName = "saradominranger";
 		this.maxHealth = 20;
