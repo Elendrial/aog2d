@@ -7,6 +7,7 @@ import java.util.Objects;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.logging.LogSeverity;
 import me.hii488.logging.Logger;
+import me.hii488.registries.EntityRegistry;
 import me.hii488.registries.TextureRegistry;
 
 public class God {
@@ -28,10 +29,16 @@ public class God {
 	
 	public void addUnit(Class<? extends Unit> unit) {
 		units.add(unit);
+		
+		try {
+			Unit u = unit.newInstance();
+			if(!EntityRegistry.contains(u.getEntityName())) EntityRegistry.registerEntity(u);
+		} catch (InstantiationException e) {e.printStackTrace();
+		} catch (IllegalAccessException e) {e.printStackTrace();}
 	}
 	
 	public static God unitAlignment(Unit u) {
-		Class<? extends Unit> uc = Unit.class;
+		Class<? extends Unit> uc = u.getClass();
 		for(God g : gods) {
 			if(g.units.contains(uc)) return g;
 		}

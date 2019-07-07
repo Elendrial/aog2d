@@ -70,7 +70,6 @@ public class Initialisation implements IInitialiser{
 	public void alignUnits() {
 		// Setup God/Unit affiliations
 		
-		// Neutral:
 		God.NEUTRAL.addUnit(BarbarianUnit.class);
 		God.NEUTRAL.addUnit(BarbarianChieftainUnit.class);
 		God.NEUTRAL.addUnit(BarbarianSpearUnit.class);
@@ -80,7 +79,6 @@ public class Initialisation implements IInitialiser{
 		God.NEUTRAL.addUnit(PortalMageUnit.class);
 		God.NEUTRAL.addUnit(TzhaarKetUnit.class);
 		
-		// Saradomin:
 		God.SARADOMIN.addUnit(CentaurUnit.class);
 		God.SARADOMIN.addUnit(IcyeneUnit.class);
 		God.SARADOMIN.addUnit(LionUnit.class);
@@ -92,7 +90,6 @@ public class Initialisation implements IInitialiser{
 		God.SARADOMIN.addUnit(UnicornUnit.class);
 		God.SARADOMIN.addUnit(WhiteKnightUnit.class);
 		
-		// Zamorak:
 		God.ZAMORAK.addUnit(BlackKnightUnit.class);
 		God.ZAMORAK.addUnit(GargoyleUnit.class);
 		God.ZAMORAK.addUnit(GreaterDemonUnit.class);
@@ -105,7 +102,6 @@ public class Initialisation implements IInitialiser{
 		God.ZAMORAK.addUnit(ZamorakMageUnit.class);
 		God.ZAMORAK.addUnit(ZamorakRangerUnit.class);
 		
-		// Guthix:
 		God.GUTHIX.addUnit(BattleTortoiseUnit.class);
 		God.GUTHIX.addUnit(BlackGuardDwarfUnit.class);
 		God.GUTHIX.addUnit(DruidUnit.class);

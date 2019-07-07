@@ -157,8 +157,7 @@ public class AoGGuiObjects {
 							Player player = ((AoGLevel) LevelHandler.getCurrentLevel()).turnController.getCurrentPlayer();
 							try {
 								u = unit.newInstance();
-								
-								if(u.getCost() <= player.getMana()) {
+								if(u.isEligible(player) && u.getCost() <= player.getMana()) {
 									u.setGridPosition(LevelHandler.getCurrentLevel().getEntityGrid().getGridVectorFromRealPosition(parentBox.getPosition()));
 									u.setPlayer(player);
 									LevelHandler.getCurrentLevel().addEntity(u);

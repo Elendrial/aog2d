@@ -289,12 +289,20 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	
 	@Override
 	public void render(Graphics g) {
-		super.render(g);
+		//super.render(g);
+		
+		// Temporary change to how the image is rendered so that it renders fully within a tile
+		Vector absPos = getAbsPosition();
+		//int tileSize = parentGrid.getGridScale(); // Grid may not line up with tiles.
+		
+		// Render in the middle of the grid 'tile'
+		g.drawImage(getTexture(), absPos.getIX(), absPos.getIY(), 30, 30, null);
+		
 		
 		///// Temporary way of showing which side a unit it on & health
 		Color c= g.getColor();
 		g.setColor(getPlayer().color);
-		g.drawLine(getAbsPosition().getIX(), getAbsPosition().getIY() + getTextureHeight(), getAbsPosition().getIX() + getTextureWidth() * this.getHealth()/10, getAbsPosition().getIY() + getTextureHeight());
+		g.drawLine(getAbsPosition().getIX(), getAbsPosition().getIY() + 30, getAbsPosition().getIX() + 30 * this.getHealth()/this.getMaxHealth(), getAbsPosition().getIY() + 30);
 		g.drawString(this.getHealth() + "", getAbsPosition().getIX(), getAbsPosition().getIY());
 		g.setColor(c);
 	}
