@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.objects.units.zamorak;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.units.SimpleUnit;
@@ -20,7 +21,9 @@ public class NecromancerUnit extends SimpleUnit{
 		this.isSummonable = true;
 		this.ut = UnitType.HELPER;
 		this.movementDistance = 5;
-		
+
+		this.eligableGod = God.ZAMORAK;
+		this.eligableLevel = 1;
 	}
 	
 	public void onTurnStart(Player p) {

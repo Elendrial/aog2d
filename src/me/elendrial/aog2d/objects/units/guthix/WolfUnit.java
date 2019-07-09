@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.objects.units.guthix;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.objects.units.SimpleUnit;
 
 public class WolfUnit extends SimpleUnit{
@@ -16,6 +17,9 @@ public class WolfUnit extends SimpleUnit{
 		
 		this.isSummonable = true;
 		this.health = this.maxHealth;
+		
+		this.eligableGod = God.GUTHIX;
+		this.eligableLevel = 1;
 	}
 
 }

@@ -28,6 +28,10 @@ public class Player {
 		return 0;
 	}
 	
+	public void setAlignmentLevel(God g, int level) {
+		alignmentLevel.put(g, level);
+	}
+	
 	public void addMana(int m) {
 		setMana(getMana() + m);
 	}

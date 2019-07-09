@@ -20,8 +20,8 @@ public class DruidUnit extends SimpleUnit{
 		this.isSummonable = true;
 		this.health = this.maxHealth;
 		
-		this.eligableGod = God.SARADOMIN;
-		this.eligableLevel = 4;
+		this.eligableGod = God.GUTHIX;
+		this.eligableLevel = 1;
 	}
 	
 	public void onTurnStart(Player p) {

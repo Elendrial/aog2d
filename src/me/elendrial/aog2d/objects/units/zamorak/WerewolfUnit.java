@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.objects.units.zamorak;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.objects.units.SimpleUnit;
 
 public class WerewolfUnit extends SimpleUnit{
@@ -16,6 +17,9 @@ public class WerewolfUnit extends SimpleUnit{
 		this.isSummonable = true;
 		this.ut = UnitType.SKIRMISH;
 		this.movementDistance = 6;
+		
+		this.eligableGod = God.ZAMORAK;
+		this.eligableLevel = 1;
 	}
 
 }

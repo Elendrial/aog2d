@@ -16,11 +16,15 @@ public abstract class SimpleUnit extends Unit{
 	
 	public int eligableLevel;
 	public God eligableGod;
-	
-	@Override
-	public void onMove() {}
 
-	@Override
+	public void onSummon() {
+		super.onSummon();
+		God alignedGod = God.unitAlignment(this);
+		int level = player.getAlignmentLevel(alignedGod);
+		if(level == eligableLevel) player.setAlignmentLevel(alignedGod, level + 1);
+	}
+	
+	public void onMove() {}
 	public void onAttack(int distance) {}
 
 	@Override

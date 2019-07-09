@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.objects.units.saradomin;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.objects.units.SimpleUnit;
 
 public class PaladinUnit extends SimpleUnit{
@@ -16,6 +17,9 @@ public class PaladinUnit extends SimpleUnit{
 		
 		this.isSummonable = true;
 		this.health = this.maxHealth;
+		
+		this.eligableGod = God.SARADOMIN;
+		this.eligableLevel = 1;
 	}
 
 }

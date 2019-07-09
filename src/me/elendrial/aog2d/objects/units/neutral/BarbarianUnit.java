@@ -1,6 +1,7 @@
 package me.elendrial.aog2d.objects.units.neutral;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.objects.units.Unit;
 
@@ -14,6 +15,11 @@ public class BarbarianUnit extends Unit{
 		this.maxHealth = 5;
 		this.health = 5;
 		this.attackRange = new int[]{1};
+	}
+	
+	public void onSummon() {
+		super.onSummon();
+		if(player.getAlignmentLevel(God.NEUTRAL) == 1) player.setAlignmentLevel(God.NEUTRAL, 2);
 	}
 	
 	public int getCaptureAmount() {

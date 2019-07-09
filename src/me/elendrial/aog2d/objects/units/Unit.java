@@ -53,7 +53,6 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public int getAttacksPerTurn() {return 1;}
 	
 	public void onSummon() {
-		onTurnStart(player);
 		registerAsUpdating((AoGLevel) parentGrid.getParentLevel());
 	}
 	
