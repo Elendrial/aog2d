@@ -5,9 +5,9 @@ import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.tiles.environment.ForestTile;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class PyrelordUnit extends SimpleUnit{
+public class PyrelordUnit extends Unit{
 
 	public PyrelordUnit() {
 		super();

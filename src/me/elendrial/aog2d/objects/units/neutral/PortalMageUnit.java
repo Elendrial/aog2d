@@ -1,9 +1,9 @@
 package me.elendrial.aog2d.objects.units.neutral;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class PortalMageUnit extends SimpleUnit{
+public class PortalMageUnit extends Unit{
 	
 	public PortalMageUnit() {
 		super();

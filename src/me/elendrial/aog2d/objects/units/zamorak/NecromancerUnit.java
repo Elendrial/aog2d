@@ -4,11 +4,11 @@ import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.gameObjects.entities.GridEntity;
 import me.hii488.handlers.LevelHandler;
 
-public class NecromancerUnit extends SimpleUnit{
+public class NecromancerUnit extends Unit{
 
 	public NecromancerUnit() {
 		super();

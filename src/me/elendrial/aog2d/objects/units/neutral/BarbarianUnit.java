@@ -6,8 +6,6 @@ import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.objects.units.Unit;
 
 public class BarbarianUnit extends Unit{
-
-	public int[] attackRange;
 	
 	public BarbarianUnit() {
 		super();
@@ -15,23 +13,14 @@ public class BarbarianUnit extends Unit{
 		this.maxHealth = 5;
 		this.health = 5;
 		this.attackRange = new int[]{1};
-	}
-	
-	public void onSummon() {
-		super.onSummon();
-		if(player.getAlignmentLevel(God.NEUTRAL) == 1) player.setAlignmentLevel(God.NEUTRAL, 2);
+		
+		this.eligableGod = God.NEUTRAL;
+		this.eligableLevel = 1;
 	}
 	
 	public int getCaptureAmount() {
 		return health;
 	}
-
-	@Override
-	public void onMove() {}
-
-	@Override
-	public void onAttack(int distance) {}
-
 	@Override
 	public int getCost() {
 		return 50;
@@ -51,12 +40,7 @@ public class BarbarianUnit extends Unit{
 	public double getMovementDistance() {
 		return 6; // TODO: Check whether this lines up correctly with the different movement code
 	}
-
-	@Override
-	public int[] attackRange() {
-		return attackRange;
-	}
-
+	
 	@Override
 	public boolean isEligible(Player p) {
 		return true;

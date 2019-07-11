@@ -70,7 +70,6 @@ public class Player {
 		return true;
 	}
 	
-	
 	public int hashCode() {
 		return color.hashCode();
 	}

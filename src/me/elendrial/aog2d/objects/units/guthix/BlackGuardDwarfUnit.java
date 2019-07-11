@@ -2,9 +2,9 @@ package me.elendrial.aog2d.objects.units.guthix;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class BlackGuardDwarfUnit extends SimpleUnit{
+public class BlackGuardDwarfUnit extends Unit{
 
 	public BlackGuardDwarfUnit() {
 		super();

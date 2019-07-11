@@ -3,10 +3,10 @@ package me.elendrial.aog2d.objects.units.guthix;
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.elendrial.aog2d.objects.units.Unit;
 
-public class DruidUnit extends SimpleUnit{
+public class DruidUnit extends Unit{
 
 	public DruidUnit() {
 		super();

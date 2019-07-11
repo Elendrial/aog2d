@@ -2,9 +2,9 @@ package me.elendrial.aog2d.objects.units.saradomin;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class SaradominOwlUnit extends SimpleUnit{
+public class SaradominOwlUnit extends Unit{
 
 	public SaradominOwlUnit() {
 		super();

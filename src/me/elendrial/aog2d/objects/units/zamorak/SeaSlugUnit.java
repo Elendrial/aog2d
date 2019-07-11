@@ -3,11 +3,11 @@ package me.elendrial.aog2d.objects.units.zamorak;
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.levels.AoGLevel;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.dataTypes.Vector;
 
-public class SeaSlugUnit extends SimpleUnit{
+public class SeaSlugUnit extends Unit{
 
 	// TODO: Make this amphibious
 	public SeaSlugUnit() {

@@ -2,9 +2,9 @@ package me.elendrial.aog2d.objects.units.guthix;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class GnomecopterUnit extends SimpleUnit{
+public class GnomecopterUnit extends Unit{
 
 	public GnomecopterUnit() {
 		super();

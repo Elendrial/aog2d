@@ -37,6 +37,22 @@ public class God {
 		} catch (IllegalAccessException e) {e.printStackTrace();}
 	}
 	
+	public void sortUnits() {
+		units.sort((u1, u2) -> {
+			try {
+				Unit u1i = u1.newInstance();
+				Unit u2i = u2.newInstance();
+				int dif = u1i.eligableLevel - u2i.eligableLevel;
+				if(dif == 0) dif = u1i.cost - u2i.cost;
+				return dif;
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			return 0;
+		});
+	}
+	
 	public static God unitAlignment(Unit u) {
 		Class<? extends Unit> uc = u.getClass();
 		for(God g : gods) {

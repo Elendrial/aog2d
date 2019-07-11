@@ -78,6 +78,7 @@ public class Initialisation implements IInitialiser{
 		God.NEUTRAL.addUnit(DagannothUnit.class);
 		God.NEUTRAL.addUnit(PortalMageUnit.class);
 		God.NEUTRAL.addUnit(TzhaarKetUnit.class);
+		God.NEUTRAL.sortUnits();
 		
 		God.SARADOMIN.addUnit(CentaurUnit.class);
 		God.SARADOMIN.addUnit(IcyeneUnit.class);
@@ -89,6 +90,7 @@ public class Initialisation implements IInitialiser{
 		God.SARADOMIN.addUnit(SaradominRangerUnit.class);
 		God.SARADOMIN.addUnit(UnicornUnit.class);
 		God.SARADOMIN.addUnit(WhiteKnightUnit.class);
+		God.SARADOMIN.sortUnits();
 		
 		God.ZAMORAK.addUnit(BlackKnightUnit.class);
 		God.ZAMORAK.addUnit(GargoyleUnit.class);
@@ -101,6 +103,7 @@ public class Initialisation implements IInitialiser{
 		God.ZAMORAK.addUnit(WerewolfUnit.class);
 		God.ZAMORAK.addUnit(ZamorakMageUnit.class);
 		God.ZAMORAK.addUnit(ZamorakRangerUnit.class);
+		God.ZAMORAK.sortUnits();
 		
 		God.GUTHIX.addUnit(BattleTortoiseUnit.class);
 		God.GUTHIX.addUnit(BlackGuardDwarfUnit.class);
@@ -114,6 +117,7 @@ public class Initialisation implements IInitialiser{
 		God.GUTHIX.addUnit(MountedTerrorbirdUnit.class);
 		God.GUTHIX.addUnit(VoidKnightUnit.class);
 		God.GUTHIX.addUnit(WolfUnit.class);
+		God.GUTHIX.sortUnits();
 	}
 
 	@Override

@@ -1,9 +1,9 @@
 package me.elendrial.aog2d.objects.units.guthix;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
-import me.elendrial.aog2d.objects.units.SimpleUnit;
+import me.elendrial.aog2d.objects.units.Unit;
 
-public class DwarfCannonCannonUnit extends SimpleUnit{
+public class DwarfCannonCannonUnit extends Unit{
 
 	public DwarfCannonCannonUnit() {
 		super();

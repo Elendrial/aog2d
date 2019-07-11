@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.elendrial.aog2d.gameSystems.UnitType;
+import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.turns.IUpdating;
 import me.elendrial.aog2d.graphics.inGame.GUIAttackTileHighlight;
@@ -19,7 +20,7 @@ import me.hii488.gameObjects.tiles.BaseTile;
 import me.hii488.graphics.gui.GUISet;
 import me.hii488.handlers.LevelHandler;
 
-public abstract class Unit extends GridEntity implements IUpdating {
+public abstract class Unit extends GridEntity implements IUpdating{
 	
 	// Things that may also be needed: Movement modifiers outside of class
 	// TODO: Add a graphic to display when a unit has run out of movement.
@@ -39,21 +40,27 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	public boolean poisoned = false;
 	protected int buff = 0;
 	
-	abstract public void onMove(); // TODO: Maybe have this take in start point and end point?
-	abstract public void onAttack(int distance);
-	public boolean onDeath() {return true;} // Returns whether the unit still dies
+	public int[] attackRange;
+	public boolean isSummonable;
+	public int cost;
+	public UnitType ut;
+	public int movementDistance;
 	
-	abstract public int getCost();
-	abstract public boolean isEligible(Player p);
-	abstract public UnitType getUnitType();
-	abstract public double getMovementDistance();
-	abstract public boolean isSummonable();
-	abstract public int[] attackRange(); // should start with lowest and end with highest
+	public int eligableLevel;
+	public God eligableGod;
+	
+	public void onMove() {}; // TODO: Maybe have this take in start point and end point?
+	public void onAttack(int distance) {};
+	public boolean onDeath() {return true;} // Returns whether the unit still dies
 	
 	public int getAttacksPerTurn() {return 1;}
 	
 	public void onSummon() {
 		registerAsUpdating((AoGLevel) parentGrid.getParentLevel());
+		
+		God alignedGod = God.unitAlignment(this);
+		int level = player.getAlignmentLevel(alignedGod);
+		if(level == eligableLevel) player.setAlignmentLevel(alignedGod, level + 1);
 	}
 	
 	@Override
@@ -310,12 +317,12 @@ public abstract class Unit extends GridEntity implements IUpdating {
 		return (AoGTile) getParentLevel().getTileGrid().getObjectAt(gridPosition);
 	}
 	
-
+	
 	@Override
 	public int getTextureState() {
 		return 0;
 	}
-
+	
 	@Override
 	public int getHighestState() {
 		return 0;
@@ -324,6 +331,31 @@ public abstract class Unit extends GridEntity implements IUpdating {
 	@Override
 	public String getTextureLocation() {
 		return "textures/units/" + this.entityName + ".png";
+	}
+	
+	public int getCost() {
+		return cost;
+	}
+	
+	public UnitType getUnitType() {
+		return ut;
+	}
+	
+	public double getMovementDistance() {
+		return movementDistance;
+	}
+	
+	public boolean isSummonable() {
+		return isSummonable;
+	}
+	
+	public int[] attackRange() {
+		return attackRange;
+	}
+	
+	public boolean isEligible(Player p) {
+		if(eligableGod == null) return true;
+		return p.getAlignmentLevel(eligableGod) >= eligableLevel;
 	}
 	
 }
