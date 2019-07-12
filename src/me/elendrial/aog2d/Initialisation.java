@@ -7,7 +7,7 @@ import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
 import me.elendrial.aog2d.levels.AoGLevel;
-
+import me.elendrial.aog2d.levels.maps.AoGLevelBuilder;
 import me.elendrial.aog2d.objects.tiles.environment.*;
 import me.elendrial.aog2d.objects.tiles.structure.*;
 
@@ -128,7 +128,7 @@ public class Initialisation implements IInitialiser{
 		// Temporary setup, AoGLevel should be more dynamically created from a menu with options etc.
 		Player p1 = new StandardPlayerBuilder().setColor(Color.RED).build();
 		Player p2 = new StandardPlayerBuilder().setColor(Color.BLUE).build();
-		LevelHandler.addLevel(new AoGLevel(new Player[] {p1,p2}), "aogLevel");
+		LevelHandler.addLevel(new AoGLevelBuilder().setFileLocation("textures/levels/misthalin_small_1.png").setPlayers(new Player[] {p1,p2}).build(), "aogLevel");
 	}
 	
 	public void initExtraTextures() {
