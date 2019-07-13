@@ -10,6 +10,7 @@ import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.tiles.environment.ForestTile;
 import me.elendrial.aog2d.objects.tiles.environment.MountainTile;
 import me.elendrial.aog2d.objects.tiles.environment.OpenTile;
+import me.elendrial.aog2d.objects.tiles.environment.OutsideWallTile;
 import me.elendrial.aog2d.objects.tiles.environment.RiverTile;
 import me.elendrial.aog2d.objects.tiles.environment.RoadTile;
 import me.elendrial.aog2d.objects.tiles.environment.SeaTile;
@@ -56,21 +57,25 @@ public class AoGLevelBuilder {
 		final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 		
 		tGrid.setDimensions(width+2, height+2);
+		tGrid.wallDimensionsWith(0, 0, width+1, height+1, OutsideWallTile.class);
 		
 		ArrayList<Vector> startingPoints = new ArrayList<Vector>();
 		
 		int[][] result = new int[height][width];
-		int pixelLength = hasAlphaChannel? 4 : 3;
+		int pixelLength = hasAlphaChannel ? 4 : 3;
+		int offset = hasAlphaChannel ? 1 : 0;
 		
-		for (int pixel = 0, row = 0, col = 0; pixel + pixelLength-1 < pixels.length; pixel += pixelLength) {
+		for (int pixel = 0, row = 0, col = 0; pixel + pixelLength < pixels.length; pixel += pixelLength) {
 			
-			int blue  = ((int) pixels[pixel + 1] & 0xff);
-			int green = ((int) pixels[pixel + 2] & 0xff) << 8;
-			int red   = ((int) pixels[pixel + 3] & 0xff) << 16;
+			int blue  = (int) pixels[pixel + offset] & 0xff;
+			int green = (int) pixels[pixel + offset + 1] & 0xff;
+			int red   = (int) pixels[pixel + offset + 2] & 0xff;
 			
 			// Green :: Tiles
 			// Blue  :: Entities (TODO) (doesn't include barbarian chieftain)
 			// Red   :: Misc	 (eg: starting points)
+			
+			System.out.println(green);
 			
 			AoGTile tile;
 			switch(green) {
@@ -96,11 +101,11 @@ public class AoGLevelBuilder {
 			
 			switch(red) {
 			case 255: // Starting point
-				startingPoints.add(new Vector(row+1, col+1));
+				startingPoints.add(new Vector(col+1, row+1));
 				break;
 			}
 			
-			tGrid.setObjectAt(row+1,  col+1, tile);
+			tGrid.setObjectAt(col+1,  row+1, tile);
 			
 			col++;
 			if (col == width) {
