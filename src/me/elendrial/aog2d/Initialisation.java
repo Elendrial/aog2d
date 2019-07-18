@@ -128,12 +128,13 @@ public class Initialisation implements IInitialiser{
 		// Temporary setup, AoGLevel should be more dynamically created from a menu with options etc.
 		Player p1 = new StandardPlayerBuilder().setColor(Color.RED).build();
 		Player p2 = new StandardPlayerBuilder().setColor(Color.BLUE).build();
-		LevelHandler.addLevel(new AoGLevelBuilder().setFileLocation("textures/levels/misthalin_small_1.png").setPlayers(new Player[] {p1,p2}).build(), "aogLevel");
+		LevelHandler.addLevel(new AoGLevelBuilder().setFileLocation("textures/levels/misthalin_small_4.png").setPlayers(new Player[] {p1,p2}).build(), "aogLevel");
 	}
 	
 	public void initExtraTextures() {
 		TextureRegistry.addTexture("textures/gui/tileOverlay/attackOverlay.png", "attackOverlay", 1);
 		TextureRegistry.addTexture("textures/gui/tileOverlay/moveOverlay.png", "moveOverlay", 1);
+		TextureRegistry.addTexture("textures/tiles/backgrounds/background.png", "tileBackground", 3);
 	}
 
 	@Override

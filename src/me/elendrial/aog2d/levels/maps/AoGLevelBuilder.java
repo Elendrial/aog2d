@@ -72,10 +72,8 @@ public class AoGLevelBuilder {
 			int red   = (int) pixels[pixel + offset + 2] & 0xff;
 			
 			// Green :: Tiles
-			// Blue  :: Entities (TODO) (doesn't include barbarian chieftain)
-			// Red   :: Misc	 (eg: starting points)
-			
-			System.out.println(green);
+			// Red   :: Entities + "starting points" (ie: chief barbarian spawns)
+			// Blue  :: Misc
 			
 			AoGTile tile;
 			switch(green) {
@@ -105,6 +103,7 @@ public class AoGLevelBuilder {
 				break;
 			}
 			
+			//tile.setTileSet(2);
 			tGrid.setObjectAt(col+1,  row+1, tile);
 			
 			col++;

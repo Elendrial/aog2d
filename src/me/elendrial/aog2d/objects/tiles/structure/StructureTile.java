@@ -9,7 +9,6 @@ import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.elendrial.aog2d.objects.units.neutral.BarbarianUnit;
-import me.hii488.gameObjects.entities.GridEntity;
 import me.hii488.handlers.LevelHandler;
 
 public abstract class StructureTile extends AoGTile implements IUpdating {
@@ -30,7 +29,7 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 	
 	public void onTurnStart(Player playerTurn) {
 		boolean suppressed = false;			
-		GridEntity ge = LevelHandler.getCurrentLevel().getEntityGrid().getObjectAt(getGridPosition());
+		Unit ge = (Unit) LevelHandler.getCurrentLevel().getEntityGrid().getObjectAt(getGridPosition());
 		
 		if(ge != null) {
 			if(ge instanceof BarbarianUnit) {
@@ -51,14 +50,14 @@ public abstract class StructureTile extends AoGTile implements IUpdating {
 			}
 			
 			// Enemy unit suppressing the building
-			else if(((Unit) ge).getPlayer() != capturedBy) {
+			else if(ge.getPlayer() != capturedBy) {
 				suppressed = true;
 			}
 			
 			// Friendly unit getting rid of enemy progress
 			else {
 				if(captureAmount > 0) {
-					float change = ((float) ((Unit) ge).getHealth()) * 0.75f;
+					float change = ((float) ge.getHealth()) * 0.75f;
 					captureAmount -= captureAmount < change ? captureAmount : change;
 				}
 			}
