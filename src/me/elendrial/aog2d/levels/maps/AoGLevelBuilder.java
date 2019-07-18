@@ -103,7 +103,11 @@ public class AoGLevelBuilder {
 				break;
 			}
 			
-			//tile.setTileSet(2);
+			// for blue: thinking of each group of bits setting something.
+			// eg: 0: standard, 1: desert, 2: snow
+			tile.setTileSet(blue & 0x03);
+			
+			
 			tGrid.setObjectAt(col+1,  row+1, tile);
 			
 			col++;

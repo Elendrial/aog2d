@@ -6,7 +6,6 @@ import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
 import me.elendrial.aog2d.gameSystems.players.builders.StandardPlayerBuilder;
-import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.levels.maps.AoGLevelBuilder;
 import me.elendrial.aog2d.objects.tiles.environment.*;
 import me.elendrial.aog2d.objects.tiles.structure.*;
