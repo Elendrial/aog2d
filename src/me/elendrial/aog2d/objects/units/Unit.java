@@ -87,135 +87,161 @@ public abstract class Unit extends GridEntity implements IUpdating{
 	}
 	
 	// TODO: If setting movement cost set to 1000000 doesn't stop moving through, add a "canPass(Unit u)" method to tiles - NB: not UnitType so that specific special units can pass
-	// TODO: Split this up or condense it.
-	public void select(Player p) { // TODO: Attack square highlighting and figuring out - Movement highlighting
+	public void select(Player p) {
 		if(p.equals(player) && attacksLeft > 0) { // Only the correct player can move the unit
 			
-			// I promise this is just Dijkstra, I think
-			// TODO: Rewrite this so it's not a mess (maybe look through Algs & Data Structs module notes?)
-			
-			HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
-			HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>(), tempPath = new HashMap<Vector, ArrayList<Vector>>();
-			ArrayList<Vector> exploredLocations = new ArrayList<Vector>();
-			ArrayList<Vector> allowedLocations = new ArrayList<Vector>();
-			Vector[] adjacents = {new Vector(-1,0),new Vector(1,0),new Vector(0,-1),new Vector(0,1)};
-			
-			Grid<BaseTile> tileGrid = LevelHandler.getCurrentLevel().getTileGrid();
-			Grid<GridEntity> entityGrid = LevelHandler.getCurrentLevel().getEntityGrid();
-			
-			ArrayList<Vector> base = new ArrayList<>();
-			base.add(gridPosition);
-			
-			movementCost.put(gridPosition, 0D);
-			path.put(gridPosition, base);
-			exploredLocations.add(gridPosition);
-			
-			double tileCost;
-			// Pre-add the adjacent tiles or it'll fail, adds a bit of mess.
-			for(Vector adjacent : adjacents) {
-				Vector v = gridPosition.getLocation().translate(adjacent);
-				
-				ArrayList<Vector> newPath = new ArrayList<>(path.get(gridPosition));
-	            newPath.add(v);
-	            
-				tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
-	            
-	            movementCost.put(v, movementCost.get(gridPosition) + tileCost);
-				path.put(v, newPath);
-			}
-			
-			
-			// Start actual Dijkstra
-			boolean foundNew = true;
-			Vector adj;
-			while(foundNew) {
-				foundNew = false;
-				
-				for(Vector v : path.keySet()) {
-					if(!exploredLocations.contains(v)) {
-						exploredLocations.add(v);
-						
-						boolean allowed = true;
-						Unit u = (Unit) entityGrid.getObjectAt(v);
-						if(u != null) // Just assume you can't go through units
-							allowed = false;
-						else {
-							AoGTile t = (AoGTile) tileGrid.getObjectAt(v);
-							allowed = t.canPassThrough();
-						}
-						
-						if(movementCost.get(v) >= this.movementLeft) allowed = false;
-						
-						if(allowed) {
-							foundNew = true;
-							allowedLocations.add(v);
-							
-							for(Vector adjacent : adjacents) {
-								adj = v.getLocation().translate(adjacent);
-								tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
-								if(movementCost.containsKey(adj)) {
-									if(movementCost.get(adj) > movementCost.get(v) + tileCost) {
-										ArrayList<Vector> newPath = new ArrayList<>(path.get(v));
-			                            newPath.add(adj);
-			                            
-			                            movementCost.put(adj, movementCost.get(v) + tileCost);
-										tempPath.put(adj, newPath);
-										
-										// TODO: Check that this wont cause an infinite loop of constantly lowering min path dist until either a crash or wraparound
-										if(exploredLocations.contains(adj)) exploredLocations.remove(adj);
-									}
-								}
-								else {
-									ArrayList<Vector> newPath = new ArrayList<>(path.get(v));
-		                            newPath.add(adj);
-		                            
-		                            movementCost.put(adj, movementCost.get(v) + tileCost);
-		                            tempPath.put(adj, newPath);
-								}
-							}
-						}
-					}
-				}
-				
-				path.putAll(tempPath);
-				tempPath.clear();
-			}
-			
-			// TODO: Combine this with the loop above?
+			// Find and highlight all movable tiles
+			HashMap<Vector, Double> movementCost = getLocationsWithinMovementDistance();
 			GUISet highlightSet = ((AoGLevel) parentLevel).tileOverlayGUISet;
-			for(Vector v : allowedLocations) {
+			for(Vector v : movementCost.keySet()) {
 				GUIMoveTileHighlight tilehighlight = new GUIMoveTileHighlight(this, v, movementCost.get(v));
 				highlightSet.addElement(tilehighlight);
 			}
 			
+			// Find attackables from location
+			for(Unit u : getAttackableUnitsFromPosition(this.gridPosition.getCopy())) {
+				GUIAttackTileHighlight tilehighlight = new GUIAttackTileHighlight(this, u.gridPosition);
+				highlightSet.addElement(tilehighlight);
+			}
+		}
+	}
+	
+	public HashMap<Vector, Double> getLocationsWithinMovementDistance(){
+		HashMap<Vector, Double> movementCost = new HashMap<Vector, Double>();
+		HashMap<Vector, ArrayList<Vector>> path = new HashMap<Vector, ArrayList<Vector>>(), tempPath = new HashMap<Vector, ArrayList<Vector>>();
+		ArrayList<Vector> exploredLocations = new ArrayList<Vector>();
+		ArrayList<Vector> allowedLocations = new ArrayList<Vector>();
+		Vector[] adjacents = {new Vector(-1,0),new Vector(1,0),new Vector(0,-1),new Vector(0,1)};
+		
+		Grid<BaseTile> tileGrid = LevelHandler.getCurrentLevel().getTileGrid();
+		Grid<GridEntity> entityGrid = LevelHandler.getCurrentLevel().getEntityGrid();
+		
+		ArrayList<Vector> base = new ArrayList<>();
+		base.add(gridPosition);
+		
+		movementCost.put(gridPosition, 0D);
+		path.put(gridPosition, base);
+		exploredLocations.add(gridPosition);
+		
+		double tileCost;
+		// Pre-add the adjacent tiles or it'll fail, adds a bit of mess.
+		for(Vector adjacent : adjacents) {
+			Vector v = gridPosition.getCopy().translate(adjacent);
 			
-			// Very basic attack checking. TODO: Improve this to be more like AoG
-			// Idea on how to improve: On every new vector added to movement, check all units previously unattackable(ie: not in map). If any is in the correct range, add it & and the vector to move to to a map
-			Vector start = this.gridPosition.getLocation().translate(-attackRange()[attackRange().length-1], -attackRange()[attackRange().length-1]), temp;
-			for(int i = 0; i < attackRange()[attackRange().length-1]*2 + 1; i++) {
-				for(int j = 0; j < attackRange()[attackRange().length-1]*2 + 1; j++) {
-					temp = start.getLocation().translate(i,j);
-					Unit u = (Unit) entityGrid.getObjectAt(temp);
-					if(u != null) {
-						if(u.getPlayer() != player) {
-							for(int allowedDist : attackRange()) {
-								if(Math.round(u.gridPosition.distance(gridPosition)) == allowedDist) {
-									if(canAttackUnit(u)) {
-										GUIAttackTileHighlight tilehighlight = new GUIAttackTileHighlight(this, temp);
-										highlightSet.addElement(tilehighlight);
-									}
+			ArrayList<Vector> newPath = new ArrayList<>(path.get(gridPosition));
+            newPath.add(v);
+            
+			tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
+            
+            movementCost.put(v, movementCost.get(gridPosition) + tileCost);
+			path.put(v, newPath);
+		}
+		
+		
+		// Start actual Dijkstra
+		boolean foundNew = true;
+		Vector adj;
+		while(foundNew) {
+			foundNew = false;
+			
+			for(Vector v : path.keySet()) {
+				if(!exploredLocations.contains(v)) {
+					exploredLocations.add(v);
+					
+					boolean allowed = true;
+					Unit u = (Unit) entityGrid.getObjectAt(v);
+					if(u != null) // Just assume you can't go through units
+						allowed = false;
+					else {
+						AoGTile t = (AoGTile) tileGrid.getObjectAt(v);
+						allowed = t.canPassThrough();
+					}
+					
+					if(movementCost.get(v) >= this.movementLeft) allowed = false;
+					
+					if(allowed) {
+						foundNew = true;
+						allowedLocations.add(v);
+						
+						for(Vector adjacent : adjacents) {
+							adj = v.getCopy().translate(adjacent);
+							tileCost = ((AoGTile) tileGrid.getObjectAt(v)).movementCost(this);
+							if(movementCost.containsKey(adj)) {
+								if(movementCost.get(adj) > movementCost.get(v) + tileCost) {
+									ArrayList<Vector> newPath = new ArrayList<>(path.get(v));
+		                            newPath.add(adj);
+		                            
+		                            movementCost.put(adj, movementCost.get(v) + tileCost);
+									tempPath.put(adj, newPath);
+									
+									// TODO: Check that this wont cause an infinite loop of constantly lowering min path dist until either a crash or wraparound
+									if(exploredLocations.contains(adj)) exploredLocations.remove(adj);
 								}
+							}
+							else {
+								ArrayList<Vector> newPath = new ArrayList<>(path.get(v));
+	                            newPath.add(adj);
+	                            
+	                            movementCost.put(adj, movementCost.get(v) + tileCost);
+	                            tempPath.put(adj, newPath);
 							}
 						}
 					}
 				}
 			}
+			
+			path.putAll(tempPath);
+			tempPath.clear();
 		}
+		
+		HashMap<Vector, Double> allowedcosts = new HashMap<>();
+		for(Vector v : allowedLocations) {
+			allowedcosts.put(v, movementCost.get(v));
+		}
+		
+		return allowedcosts;
+	}
+
+	public ArrayList<Unit> getAttackableUnitsFromPosition(Vector v){
+		Grid<GridEntity> entityGrid = LevelHandler.getCurrentLevel().getEntityGrid();
+		Vector start = v.getCopy().translate(-attackRange()[attackRange().length-1], -attackRange()[attackRange().length-1]), temp;
+		ArrayList<Unit> attackables = new ArrayList<>();
+		
+		for(int i = 0; i < attackRange()[attackRange().length-1]*2 + 1; i++) {
+			for(int j = 0; j < attackRange()[attackRange().length-1]*2 + 1; j++) {
+				
+				temp = start.getCopy().translate(i,j);
+				Unit u = (Unit) entityGrid.getObjectAt(temp);
+				
+				if(u != null) {
+					if(u.getPlayer() != player) {
+						for(int allowedDist : attackRange()) {
+							if(Math.round(u.gridPosition.distance(gridPosition)) == allowedDist) {
+								if(canAttackUnit(u)) {
+									attackables.add(u);
+								}
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		
+		return attackables;
 	}
 	
-	// Here entirely to be overwritten
+	// Exists solely to be overridden. Checked only when the first unit tries to attack.
 	public boolean canAttackUnit(Unit u) {
 		return true;
+	}
+	
+	public boolean withinRange(Unit u) {
+		int dist = (int) u.getGridPosition().distance(getGridPosition());
+		boolean can = false;
+		for(int i : attackRange()) if(dist == i) can = true;
+		
+		return can;
 	}
 	
 	public void deselect(Player p) {
@@ -239,8 +265,7 @@ public abstract class Unit extends GridEntity implements IUpdating{
 		Unit attacked = (Unit) parentGrid.getObjectAt(v);
 		attacked.damage(this.getAttack(attacked));
 		
-		// TODO: Change this so opponent can only attack back if in range.
-		if(attacked.getHealth() >= 1) this.damage(attacked.getAttack(this));
+		if(attacked.getHealth() >= 1 && attacked.withinRange(this)) this.damage(attacked.getAttack(this));
 	}
 	
 	public void buff(int i) {
@@ -285,7 +310,6 @@ public abstract class Unit extends GridEntity implements IUpdating{
 	}
 	
 	public void kill() {
-		// TODO: Unit death
 		if(!this.onDeath()) return;
 		
 		// Give points maybe?

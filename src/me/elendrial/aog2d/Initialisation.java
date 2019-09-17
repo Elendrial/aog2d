@@ -16,6 +16,8 @@ import me.elendrial.aog2d.objects.units.saradomin.*;
 import me.elendrial.aog2d.objects.units.zamorak.*;
 
 import me.hii488.controllers.InitialisationController;
+import me.hii488.dataTypes.Vector;
+import me.hii488.graphics.Camera;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
 import me.hii488.registries.EntityRegistry;
@@ -128,6 +130,8 @@ public class Initialisation implements IInitialiser{
 		Player p1 = new StandardPlayerBuilder().setColor(Color.RED).build();
 		Player p2 = new StandardPlayerBuilder().setColor(Color.BLUE).build();
 		LevelHandler.addLevel(new AoGLevelBuilder().setFileLocation("textures/levels/misthalin_small_4.png").setPlayers(new Player[] {p1,p2}).build(), "aogLevel");
+		
+		Camera.consistentMoveTo(new Vector(0,-10), 30);
 	}
 	
 	public void initExtraTextures() {
