@@ -3,6 +3,7 @@ package me.elendrial.aog2d.graphics.inGame;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.dataTypes.Vector;
 import me.hii488.graphics.gui.premadeTypes.GUIStandardBox;
+import me.hii488.handlers.LevelHandler;
 
 public class GUITileHighlight extends GUIStandardBox{
 	Unit callbackUnit;
@@ -14,6 +15,7 @@ public class GUITileHighlight extends GUIStandardBox{
 		gridPos = position;
 		callbackUnit = toMove;
 		addTag("tileHighlight");
+		this.anchor = LevelHandler.getCurrentLevel();
 	}
 	
 }

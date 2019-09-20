@@ -73,8 +73,12 @@ public class AoGGuiObjects {
 		GUIOptionBox box = new GUIOptionBox(AoGStyleGroup.getInstance().getStyle("summonMenu")) {
 			public boolean onClick(MouseEvent e) {
 				boolean updated = false;
+				// Using this as the reference point only works because I _know_ that all the options are anchored to this.
+				Vector clickPos = this.getAnchoredPositionFromScreenPosition(e.getX(), e.getY());
+				System.out.println(e.getX() + "," + e.getY() + "\t" + clickPos);
 				for(int i = 0; i < options.size(); i++) {
-					if(options.get(i).getBoundingBox().containsPoint(e.getX() - position.getIX(), e.getY() - position.getIY())) {
+					System.out.println(options.get(i).getBoundingBox());
+					if(options.get(i).getBoundingBox().containsPoint(clickPos)) {
 						updated = true;
 						options.get(i).onSelect();
 					}
@@ -83,12 +87,13 @@ public class AoGGuiObjects {
 				return updated;
 			}
 		};
+		box.setAnchor(LevelHandler.getCurrentLevel());
 		box.addTag("summonMenu");
 		box.setElementName("summonMenuBox" + p.color);
 		
 		p.alignmentLevel.entrySet().forEach(e -> box.addOption(generateGodOption(p, e.getKey(), e.getValue())));
 		
-		ArrayList<GUIOption> options = box.getOptions();
+		ArrayList<GUIOption> options = box.getOptions(); // God Options
 		for(int i = 0; i < options.size(); i++) {
 			Vector pos = new Vector(0, -30);														 // How far away from the portal/center it is
 			pos.rotateDeg(360/options.size() * i);													 // Rotate into correct position.
@@ -114,10 +119,10 @@ public class AoGGuiObjects {
 		GUIOption o = new GUIOption(s) {
 			GUIOptionBox unitOptionBox = unitSummonMenus.get(g.name + "_units");
 			public void onSelect() {
-			// TODO: Figure out why the parentGuiSet isn't being set for the option
+			// TODO: Figure out why the parentGuiSet isn't being set for the option. TODO: Find out if the previous todo is relevant or not.
 				parentBox.getParentGuiSet().hideAllWithTag("unitOptions");
 				summonSet.addElement(unitOptionBox);
-				unitOptionBox.setPosition(parentBox.getPosition());
+				unitOptionBox.setPosition(parentBox.getAnchor().getScreenPositionFromAnchoredPosition(parentBox.getPosition())); // I'm not entirely sure why this is right, I just changed it till it was. Am tired.
 				unitOptionBox.show();
 			}
 		};

@@ -7,7 +7,6 @@ import me.elendrial.aog2d.levels.AoGLevel;
 import me.elendrial.aog2d.objects.tiles.AoGTile;
 import me.elendrial.aog2d.objects.units.Unit;
 import me.hii488.dataTypes.Vector;
-import me.hii488.graphics.Camera;
 import me.hii488.interfaces.IInputListener;
 
 public class ClickController implements IInputListener{
@@ -20,19 +19,18 @@ public class ClickController implements IInputListener{
 		parentLevel = level;
 	}
 
-	public boolean mouseClicked(MouseEvent e, boolean b) {
+	public boolean mouseClicked(MouseEvent e, Vector ingameLocation, boolean b) {
 		// TODO: When splitting into client/server pair, change this to pass the player as the one on the client.
 		// If entity on tile, onClick() that, else onClick() the tile.
 		
 		boolean updateSelect = false;
 		// If something beforehand has already dealt with the click, we should not touch it
 		if(!b){
-			Vector clickPosition = new Vector(e.getX(), e.getY()).translate(Camera.getPosition().negated());
 			Player clickingPlayer = parentLevel.turnController.getCurrentPlayer();
 			updateSelect = true;
 			
-			Unit newUnit = (Unit) parentLevel.getEntityGrid().getObjectAtRealPosition(e.getX(), e.getY());
-			AoGTile newTile = (AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(clickPosition);
+			Unit newUnit = (Unit) parentLevel.getEntityGrid().getObjectAtRealPosition(ingameLocation);
+			AoGTile newTile = (AoGTile) parentLevel.getTileGrid().getObjectAtRealPosition(ingameLocation);
 			
 			if(selectedUnit != null) {
 				if(newUnit == null)	deselectUnit(clickingPlayer);
@@ -40,7 +38,7 @@ public class ClickController implements IInputListener{
 				else updateSelect = false;
 			}
 			else {
-				if(newUnit != null) deselectTile(clickingPlayer);
+				if(newUnit == null) deselectTile(clickingPlayer);
 				else if(!newTile.equals(selectedTile)) deselectTile(clickingPlayer);
 				else updateSelect = false;
 			}
