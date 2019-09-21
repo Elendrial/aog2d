@@ -122,7 +122,8 @@ public class AoGGuiObjects {
 			// TODO: Figure out why the parentGuiSet isn't being set for the option. TODO: Find out if the previous todo is relevant or not.
 				parentBox.getParentGuiSet().hideAllWithTag("unitOptions");
 				summonSet.addElement(unitOptionBox);
-				unitOptionBox.setPosition(parentBox.getAnchor().getScreenPositionFromAnchoredPosition(parentBox.getPosition())); // I'm not entirely sure why this is right, I just changed it till it was. Am tired.
+				unitOptionBox.setPosition(Vector.ORIGIN);
+				unitOptionBox.setAnchor(parentBox);
 				unitOptionBox.show();
 			}
 		};
