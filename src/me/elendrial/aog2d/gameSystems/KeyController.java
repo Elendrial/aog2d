@@ -39,7 +39,9 @@ public class KeyController implements ITickable{
 		if(KeyBindRegistry.isPressed("MOVE_DOWN")) 
 			cameraMovement.translate(0, 1);
 		
-		Camera.translate(cameraMovement);
+		if(cameraMovement.isNotNothing()) {
+			Camera.translate(cameraMovement);
+		}
 	}
 
 	@Override

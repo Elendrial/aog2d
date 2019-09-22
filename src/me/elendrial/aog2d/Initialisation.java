@@ -2,6 +2,7 @@ package me.elendrial.aog2d;
 
 import java.awt.Color;
 
+import me.elendrial.aog2d.gameSystems.KeyController;
 import me.elendrial.aog2d.gameSystems.UnitType;
 import me.elendrial.aog2d.gameSystems.gods.God;
 import me.elendrial.aog2d.gameSystems.players.Player;
@@ -16,7 +17,7 @@ import me.elendrial.aog2d.objects.units.saradomin.*;
 import me.elendrial.aog2d.objects.units.zamorak.*;
 
 import me.hii488.controllers.InitialisationController;
-import me.hii488.dataTypes.Vector;
+import me.hii488.controllers.TickController;
 import me.hii488.graphics.Camera;
 import me.hii488.handlers.LevelHandler;
 import me.hii488.interfaces.IInitialiser;
@@ -131,7 +132,8 @@ public class Initialisation implements IInitialiser{
 		Player p2 = new StandardPlayerBuilder().setColor(Color.BLUE).build();
 		LevelHandler.addLevel(new AoGLevelBuilder().setFileLocation("textures/levels/misthalin_small_4.png").setPlayers(new Player[] {p1,p2}).build(), "aogLevel");
 		
-		Camera.consistentMoveTo(new Vector(0,-10), 30);
+		//Camera.setPosition(-200,-50);
+		Camera.setPosition(0,-30);
 	}
 	
 	public void initExtraTextures() {
@@ -142,6 +144,8 @@ public class Initialisation implements IInitialiser{
 
 	@Override
 	public void postInit() {
+		KeyController.init();
+		TickController.addEarlyTicker(KeyController.get());
 		LevelHandler.loadLevel("aogLevel");
 	}
 

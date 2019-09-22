@@ -75,9 +75,7 @@ public class AoGGuiObjects {
 				boolean updated = false;
 				// Using this as the reference point only works because I _know_ that all the options are anchored to this.
 				Vector clickPos = this.getAnchoredPositionFromScreenPosition(e.getX(), e.getY());
-				System.out.println(e.getX() + "," + e.getY() + "\t" + clickPos);
 				for(int i = 0; i < options.size(); i++) {
-					System.out.println(options.get(i).getBoundingBox());
 					if(options.get(i).getBoundingBox().containsPoint(clickPos)) {
 						updated = true;
 						options.get(i).onSelect();
